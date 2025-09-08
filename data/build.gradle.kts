@@ -44,8 +44,8 @@ dependencies {
 
     // hilt
     implementation(libs.hilt.dagger.android)
+    implementation(libs.hilt.core)
     ksp(libs.hilt.dagger.compiler)
-    ksp(libs.hilt.core)
 
     // retrofit
     implementation(libs.squareup.retrofit2.retrofit)

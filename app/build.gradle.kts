@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
-
 }
 
 android {
@@ -56,8 +55,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.hilt.core)
     ksp(libs.hilt.dagger.compiler)
-    ksp(libs.hilt.core)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockwebserver)

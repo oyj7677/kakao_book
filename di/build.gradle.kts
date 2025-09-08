@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.dagger.hilt.android)
-
-    kotlin("plugin.serialization") version "2.2.0"
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -51,8 +50,8 @@ dependencies {
 
     // Di
     implementation(libs.hilt.dagger.android)
+    implementation(libs.hilt.core)
     ksp(libs.hilt.dagger.compiler)
-    ksp(libs.hilt.core)
 
     // Network
     implementation(libs.squareup.retrofit2.retrofit)
