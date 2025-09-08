@@ -7,7 +7,7 @@ class DeleteFavoriteBookUseCase(
 ) {
     suspend operator fun invoke(isbn: String) {
         repository.deleteFavoriteBook(
-            isbn =isbn
+            isbn = isbn
         )
     }
 }

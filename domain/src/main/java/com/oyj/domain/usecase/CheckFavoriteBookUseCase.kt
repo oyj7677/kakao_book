@@ -7,7 +7,7 @@ class CheckFavoriteBookUseCase(
 ) {
     suspend operator fun invoke(isbn: String): Boolean {
         return repository.checkFavoriteBook(
-            isbn =isbn
+            isbn = isbn
         )
     }
 }
