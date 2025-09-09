@@ -23,4 +23,10 @@ object DatabaseModule {
             name = "bookmark.db",
         ).build()
     }
+
+    @Singleton
+    @Provides
+    fun provideBookmarkDao(database: BookDatabase): BookmarkDao {
+        return database.bookmarkDao()
+    }
 }
