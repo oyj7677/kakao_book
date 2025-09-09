@@ -33,6 +33,7 @@ android {
     kotlin {
         compilerOptions {
             optIn.add("kotlin.RequiresOptIn")
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
         }
     }
 }
