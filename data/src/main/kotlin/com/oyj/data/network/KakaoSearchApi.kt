@@ -1,4 +1,4 @@
-package com.oyj.di.network
+package com.oyj.data.network
 
 import com.oyj.data.dto.BookDto
 import retrofit2.Response

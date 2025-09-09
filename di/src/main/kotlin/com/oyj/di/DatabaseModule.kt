@@ -1,7 +1,9 @@
-package com.oyj.di.database
+package com.oyj.di
 
 import android.content.Context
 import androidx.room.Room
+import com.oyj.data.database.BookDatabase
+import com.oyj.data.database.BookmarkDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

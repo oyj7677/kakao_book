@@ -1,4 +1,4 @@
-package com.oyj.di.database
+package com.oyj.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert

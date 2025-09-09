@@ -1,6 +1,8 @@
-package com.oyj.di.network
+package com.oyj.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.oyj.data.network.HeaderInterceptor
+import com.oyj.data.network.KakaoSearchApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
