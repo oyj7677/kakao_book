@@ -1,3 +1,5 @@
+package com.oyj.di.network
+
 import com.oyj.data.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response

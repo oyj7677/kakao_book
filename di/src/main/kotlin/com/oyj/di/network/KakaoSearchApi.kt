@@ -1,3 +1,5 @@
+package com.oyj.di.network
+
 import com.oyj.data.dto.BookDto
 import retrofit2.Response
 import retrofit2.http.GET

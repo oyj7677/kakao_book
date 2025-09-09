@@ -4,12 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.oyj.domain.entity.BookEntity
+import com.oyj.data.database.entity.BookmarkEntity
 
 @Dao
 interface BookmarkDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBookmark(bookmark: BookEntity)
+    suspend fun insertBookmark(bookmark: BookmarkEntity)
 
     @Query("DELETE FROM bookmark WHERE isbn = :isbn")
     suspend fun deleteBookmark(isbn: String)
@@ -18,5 +18,5 @@ interface BookmarkDao {
     suspend fun isBookmarkExists(isbn: String): Boolean
 
     @Query("SELECT * FROM bookmark")
-    suspend fun getAllBookmark(): List<BookEntity>
+    suspend fun getAllBookmark(): List<BookmarkEntity>
 }

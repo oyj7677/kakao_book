@@ -1,7 +1,5 @@
 package com.oyj.di.network
 
-import HeaderInterceptor
-import KakaoSearchApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -47,9 +45,9 @@ object NetworkModule {
             .build()
     }
 
-    @Provides
     @Singleton
-    fun provideNSearchRetrofitService(
+    @Provides
+    fun provideSearchRetrofitApi(
         retrofit: Retrofit,
     ): KakaoSearchApi = retrofit.create(KakaoSearchApi::class.java)
 }
