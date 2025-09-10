@@ -1,4 +1,4 @@
-package com.oyj.di
+package com.oyj.di.database
 
 import android.content.Context
 import androidx.room.Room
