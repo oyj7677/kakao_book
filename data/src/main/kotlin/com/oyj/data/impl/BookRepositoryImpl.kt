@@ -43,7 +43,7 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun inserteBookmark(book: Book) {
+    override suspend fun insertBookmark(book: Book) {
         TODO("Not yet implemented")
     }
 

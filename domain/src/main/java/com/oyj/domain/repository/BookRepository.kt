@@ -9,7 +9,7 @@ interface BookRepository {
 
     suspend fun getBookmarkList(): Flow<Result<List<Book>>>
 
-    suspend fun inserteBookmark(book: Book)
+    suspend fun insertBookmark(book: Book)
 
     suspend fun deleteBookmark(isbn: String)
 

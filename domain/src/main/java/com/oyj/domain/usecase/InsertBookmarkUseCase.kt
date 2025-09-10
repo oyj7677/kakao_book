@@ -7,6 +7,6 @@ class InsertBookmarkUseCase(
     private val repository: BookRepository
 ) {
     suspend operator fun invoke(book: Book) {
-        repository.inserteBookmark(book)
+        repository.insertBookmark(book)
     }
 }
