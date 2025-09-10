@@ -4,7 +4,7 @@ import android.util.Log
 import com.oyj.data.mapper.Mapper.toEntityList
 import com.oyj.data.source.local.BookLocalSource
 import com.oyj.data.source.remote.BookRemoteSource
-import com.oyj.domain.entity.BookEntity
+import com.oyj.domain.entity.Book
 import com.oyj.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,12 +17,11 @@ class BookRepositoryImpl @Inject constructor(
     override suspend fun getBookList(
         query: String,
         sort: String
-    ): Flow<List<BookEntity>> {
+    ): Flow<List<Book>> {
         Log.d(TAG, "getBookList: query = $query, sort = $sort")
         return flow {
             runCatching {
                 val bookDto = bookRemoteSource.getBookList(query).toEntityList()
-                Log.d(TAG, "getBookList: result = $bookDto")
                 emit(bookDto)
             }.onFailure {
                 Log.e(TAG, "getBookList: ${it.message}")
@@ -30,11 +29,11 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFavoriteBookList(): Flow<List<BookEntity>> {
+    override suspend fun getFavoriteBookList(): Flow<List<Book>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun insertFavoriteBook(book: BookEntity) {
+    override suspend fun insertFavoriteBook(book: Book) {
         TODO("Not yet implemented")
     }
 

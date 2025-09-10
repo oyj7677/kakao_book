@@ -2,13 +2,13 @@ package com.oyj.data.mapper
 
 import com.oyj.data.dto.BookDto
 import com.oyj.data.dto.Document
-import com.oyj.domain.entity.BookEntity
+import com.oyj.domain.entity.Book
 
 object Mapper {
-    fun BookDto.toEntityList(): List<BookEntity> =
+    fun BookDto.toEntityList(): List<Book> =
         documents.map { it.toEntity() }
 
-    fun Document.toEntity() = BookEntity(
+    fun Document.toEntity() = Book(
         isbn = isbn,
         title = title,
         author = authors,

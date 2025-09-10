@@ -1,6 +1,6 @@
 package com.oyj.domain.entity
 
-data class BookEntity(
+data class Book(
     val isbn: String,
     val title: String,
     val author: List<String>,
