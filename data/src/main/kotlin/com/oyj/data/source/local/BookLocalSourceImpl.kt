@@ -1,4 +1,6 @@
 package com.oyj.data.source.local
 
-class BookLocalSourceImpl : BookLocalSource {
+import javax.inject.Inject
+
+class BookLocalSourceImpl @Inject constructor() : BookLocalSource {
 }

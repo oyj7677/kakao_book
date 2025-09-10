@@ -43,7 +43,7 @@ object NetworkModule {
             .Builder()
             .client(okHttpClient)
             .baseUrl(BASE_URL)
-            .addConverterFactory(Json.Default.asConverterFactory(contentType))
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
     }
 
