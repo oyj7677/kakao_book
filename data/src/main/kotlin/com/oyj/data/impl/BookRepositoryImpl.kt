@@ -1,10 +1,13 @@
 package com.oyj.data.impl
 
+import android.util.Log
+import com.oyj.data.mapper.Mapper.toEntityList
 import com.oyj.data.source.local.BookLocalSource
 import com.oyj.data.source.remote.BookRemoteSource
 import com.oyj.domain.entity.BookEntity
 import com.oyj.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
@@ -15,7 +18,16 @@ class BookRepositoryImpl @Inject constructor(
         query: String,
         sort: String
     ): Flow<List<BookEntity>> {
-        TODO("Not yet implemented")
+        Log.d(TAG, "getBookList: query = $query, sort = $sort")
+        return flow {
+            runCatching {
+                val bookDto = bookRemoteSource.getBookList(query).toEntityList()
+                Log.d(TAG, "getBookList: result = $bookDto")
+                emit(bookDto)
+            }.onFailure {
+                Log.e(TAG, "getBookList: ${it.message}")
+            }
+        }
     }
 
     override suspend fun getFavoriteBookList(): Flow<List<BookEntity>> {
@@ -32,5 +44,9 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun checkFavoriteBook(isbn: String): Boolean {
         TODO("Not yet implemented")
+    }
+
+    companion object {
+        private const val TAG = "BookRepositoryImpl"
     }
 }
