@@ -1,7 +1,6 @@
 package com.oyj.data.impl
 
 import android.util.Log
-import com.oyj.data.mapper.Mapper.toData
 import com.oyj.data.mapper.Mapper.toDomainList
 import com.oyj.data.source.local.BookLocalSource
 import com.oyj.data.source.remote.BookRemoteSource
@@ -32,27 +31,27 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFavoriteBookList(): Flow<Result<List<Book>>> {
+    override suspend fun getBookmarkList(): Flow<Result<List<Book>>> {
         return flow {
             runCatching {
                 val bookList = bookLocalSource.getBookmarkList().toDomainList()
                 emit(Result.Success(bookList))
             }.onFailure{
-                Log.e(TAG, "getFavoriteBookList: ${it.message}")
+                Log.e(TAG, "getBookmarkList: ${it.message}")
                 emit(Result.Error(it))
             }
         }
     }
 
-    override suspend fun insertFavoriteBook(book: Book) {
+    override suspend fun inserteBookmark(book: Book) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteFavoriteBook(isbn: String) {
+    override suspend fun deleteBookmark(isbn: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun checkFavoriteBook(isbn: String): Boolean {
+    override suspend fun checkBookmark(isbn: String): Boolean {
         TODO("Not yet implemented")
     }
 

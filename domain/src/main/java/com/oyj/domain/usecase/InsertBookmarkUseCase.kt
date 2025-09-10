@@ -3,10 +3,10 @@ package com.oyj.domain.usecase
 import com.oyj.domain.entity.Book
 import com.oyj.domain.repository.BookRepository
 
-class InsertFavoriteBookUseCase(
+class InsertBookmarkUseCase(
     private val repository: BookRepository
 ) {
     suspend operator fun invoke(book: Book) {
-        repository.insertFavoriteBook(book)
+        repository.inserteBookmark(book)
     }
 }

@@ -4,10 +4,10 @@ import com.oyj.domain.entity.Book
 import com.oyj.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetFavoriteBookListUseCase(
+class GetBookmarkListUseCase(
     private val repository: BookRepository
 ) {
     suspend operator fun invoke(): Flow<List<Book>> {
-        return repository.getFavoriteBookList()
+        return repository.getBookmarkList()
     }
 }

@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.Flow
 interface BookRepository {
     suspend fun getBookList(query: String, sort: String): Flow<Result<List<Book>>>
 
-    suspend fun getFavoriteBookList(): Flow<Result<List<Book>>>
+    suspend fun getBookmarkList(): Flow<Result<List<Book>>>
 
-    suspend fun insertFavoriteBook(book: Book)
+    suspend fun inserteBookmark(book: Book)
 
-    suspend fun deleteFavoriteBook(isbn: String)
+    suspend fun deleteBookmark(isbn: String)
 
-    suspend fun checkFavoriteBook(isbn: String): Boolean
+    suspend fun checkBookmark(isbn: String): Boolean
 }
