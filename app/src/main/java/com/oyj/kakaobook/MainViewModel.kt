@@ -15,7 +15,7 @@ class MainViewModel @Inject constructor(
     fun test() {
         Log.d(TAG, "test: ")
         viewModelScope.launch {
-            useCase.invoke("도서", "accuracy").collect {
+            useCase.invoke(query = "도서").collect {
             }
         }
     }

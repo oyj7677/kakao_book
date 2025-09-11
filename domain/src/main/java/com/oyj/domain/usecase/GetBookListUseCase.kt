@@ -9,10 +9,8 @@ import javax.inject.Inject
 class GetBookListUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(query: String, sort: String): Flow<Result<List<Book>>> {
+    suspend operator fun invoke(query: String): Flow<Result<List<Book>>> {
         return repository.getBookList(
-            query = query,
-            sort = sort
-        )
+            query = query)
     }
 }
