@@ -10,8 +10,4 @@ class BookRemoteSourceImpl @Inject constructor(
     override suspend fun getBookList(query: String): BookDto {
         return kakaoSearchApi.searchBooks(query)
     }
-
-    companion object {
-        private const val TAG = "BookRemoteSourceImpl"
-    }
-}       
+}

@@ -17,10 +17,9 @@ class BookRepositoryImpl @Inject constructor(
     private val bookLocalSource: BookLocalSource
 ) : BookRepository {
     override suspend fun getBookList(
-        query: String,
-        sort: String
+        query: String
     ): Flow<Result<List<Book>>> {
-        Log.d(TAG, "getBookList: query = $query, sort = $sort")
+        Log.d(TAG, "getBookList: query = $query")
         return flow {
             runCatching {
                 val bookList = bookRemoteSource.getBookList(query).toDomainList()
