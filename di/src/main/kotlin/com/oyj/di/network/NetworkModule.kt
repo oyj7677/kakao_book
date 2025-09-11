@@ -1,4 +1,4 @@
-package com.oyj.di
+package com.oyj.di.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.oyj.data.network.HeaderInterceptor
@@ -43,7 +43,7 @@ object NetworkModule {
             .Builder()
             .client(okHttpClient)
             .baseUrl(BASE_URL)
-            .addConverterFactory(Json.Default.asConverterFactory(contentType))
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
     }
 

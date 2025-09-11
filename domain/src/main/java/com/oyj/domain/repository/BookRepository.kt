@@ -1,16 +1,17 @@
 package com.oyj.domain.repository
 
-import com.oyj.domain.entity.BookEntity
+import com.oyj.domain.entity.Book
+import com.oyj.domain.entity.Result
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
-    suspend fun getBookList(query: String, sort: String): Flow<List<BookEntity>>
+    suspend fun getBookList(query: String): Flow<Result<List<Book>>>
 
-    suspend fun getFavoriteBookList(): Flow<List<BookEntity>>
+    suspend fun getBookmarkList(): Flow<Result<List<Book>>>
 
-    suspend fun insertFavoriteBook(book: BookEntity)
+    suspend fun insertBookmark(book: Book): Flow<Result<Boolean>>
 
-    suspend fun deleteFavoriteBook(isbn: String)
+    suspend fun deleteBookmark(isbn: String): Flow<Result<Boolean>>
 
-    suspend fun checkFavoriteBook(isbn: String): Boolean
+    suspend fun checkBookmark(isbn: String): Flow<Result<Boolean>>
 }
