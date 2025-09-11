@@ -35,7 +35,8 @@ fun SearchScreen(
     SearchScreen(
         modifier = modifier,
         query = query,
-        bookList = bookList
+        bookList = bookList,
+        onQueryChanged = viewModel::setQuery
     )
 }
 
@@ -43,7 +44,8 @@ fun SearchScreen(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     query: String,
-    bookList: List<BookItem>
+    bookList: List<BookItem>,
+    onQueryChanged: (String) -> Unit = {},
 ) {
     var selectedCriteria by remember { mutableStateOf(SortCriteria.Accuracy) }
 
@@ -61,7 +63,7 @@ fun SearchScreen(
             // 검색바
             OutlinedTextField(
                 value = query,
-                onValueChange = { /* TODO: 검색어 변경 로직 */ },
+                onValueChange = onQueryChanged,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),

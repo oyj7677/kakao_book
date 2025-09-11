@@ -36,18 +36,12 @@ class SearchViewModel @Inject constructor(
 
     private val _query = MutableStateFlow("")
 
-    @OptIn(FlowPreview::class)
-    val query: StateFlow<String> = _query
-        .debounce(1000)
-        .distinctUntilChanged()
-        .filter { it.isNotBlank() }
-        .onEach { searchQuery ->
-            searchBooks(searchQuery)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = ""
-        )
+    // UI에 즉시 반영되는 query (필터링 없음)
+    val query: StateFlow<String> = _query.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ""
+    )
 
     private val _bookModelList = MutableStateFlow<List<BookModel>>(emptyList())
 
@@ -65,6 +59,20 @@ class SearchViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
+
+    init {
+        // 검색용 query 구독 (debounce, filter 적용)
+        @OptIn(FlowPreview::class)
+        viewModelScope.launch {
+            _query
+                .debounce(1000)
+                .distinctUntilChanged()
+                .filter { it.isNotBlank() }
+                .collect { searchQuery ->
+                    searchBooks(searchQuery)
+                }
+        }
+    }
 
     fun setQuery(query: String) {
         _query.value = query
