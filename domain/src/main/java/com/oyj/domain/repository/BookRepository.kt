@@ -9,9 +9,9 @@ interface BookRepository {
 
     suspend fun getBookmarkList(): Flow<Result<List<Book>>>
 
-    suspend fun insertBookmark(book: Book)
+    suspend fun insertBookmark(book: Book): Flow<Result<Boolean>>
 
-    suspend fun deleteBookmark(isbn: String)
+    suspend fun deleteBookmark(isbn: String): Flow<Result<Boolean>>
 
-    suspend fun checkBookmark(isbn: String): Boolean
+    suspend fun checkBookmark(isbn: String): Flow<Result<Boolean>>
 }
