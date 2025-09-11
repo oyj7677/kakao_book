@@ -52,12 +52,13 @@ object PresenterMapper {
      * BookModel 리스트의 북마크 상태를 업데이트
      * @param bookmarkStates ISBN을 키로 하고 북마크 상태를 값으로 하는 맵
      */
-    fun List<BookModel>.updateBookmarkStates(bookmarkStates: Map<String, Boolean>): List<BookModel> {
+    fun List<BookModel>.updateBookmarkStates(bookmarkStates: Map<String, Boolean>): List<BookItem> {
         return map { bookModel ->
             val isBookmarked = bookmarkStates[bookModel.book.isbn] ?: bookModel.bookItem.isBookmark
             bookModel.copy(
                 bookItem = bookModel.bookItem.copy(isBookmark = isBookmarked)
             )
+            bookModel.bookItem
         }
     }
 }

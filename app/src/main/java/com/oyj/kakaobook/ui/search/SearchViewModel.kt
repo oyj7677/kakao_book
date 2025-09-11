@@ -10,6 +10,7 @@ import com.oyj.domain.usecase.GetBookListUseCase
 import com.oyj.domain.usecase.InsertBookmarkUseCase
 import com.oyj.kakaobook.mapper.PresenterMapper.toBookModelListWithBookmarks
 import com.oyj.kakaobook.mapper.PresenterMapper.updateBookmarkStates
+import com.oyj.kakaobook.model.BookItem
 import com.oyj.kakaobook.model.BookModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -54,7 +55,7 @@ class SearchViewModel @Inject constructor(
     private val _bookmarkStates = MutableStateFlow<Map<String, Boolean>>(emptyMap())
 
     // 검색 결과와 북마크 상태를 결합한 최종 데이터
-    val bookList: StateFlow<List<BookModel>> = combine(
+    val bookList: StateFlow<List<BookItem>> = combine(
         _bookModelList,
         _bookmarkStates
     ) { books, bookmarkStates ->

@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.hilt.dagger.android)
     implementation(libs.hilt.core)
+    implementation(libs.coil.compose)
     ksp(libs.hilt.dagger.compiler)
 
     testImplementation(libs.junit)
