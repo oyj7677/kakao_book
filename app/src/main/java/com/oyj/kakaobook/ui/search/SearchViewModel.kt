@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oyj.domain.entity.Result
+import com.oyj.domain.usecase.DeleteBookmarkUseCase
 import com.oyj.domain.usecase.GetBookListUseCase
 import com.oyj.domain.usecase.InsertBookmarkUseCase
 import com.oyj.kakaobook.mapper.PresenterMapper.toBookModelList
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getBookListUseCase: GetBookListUseCase,
-    private val insertBookmarkUseCase: InsertBookmarkUseCase
+    private val insertBookmarkUseCase: InsertBookmarkUseCase,
+    private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -70,6 +72,21 @@ class SearchViewModel @Inject constructor(
                 is Result.Success -> {
                     Log.d(TAG, "insertBookmark: ${it.data}")
                     // 북마크 추가 성공 처리 (예: UI 업데이트)
+                }
+
+                is Result.Error -> {
+                    TODO()
+                }
+            }
+        }
+    }
+
+    suspend fun deleteBookmark(isbn: String) {
+        deleteBookmarkUseCase.invoke(isbn).collect {
+            when (it) {
+                is Result.Success -> {
+                    Log.d(TAG, "deleteBookmark: ${it.data}")
+                    // 북마크 삭제 성공 처리 (예: UI 업데이트)
                 }
 
                 is Result.Error -> {
