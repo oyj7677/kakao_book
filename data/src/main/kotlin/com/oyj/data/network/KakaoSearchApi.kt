@@ -9,7 +9,7 @@ interface KakaoSearchApi {
     suspend fun searchBooks(
         @Query("query") query: String,
         @Query("sort") sort: String = "accuracy",
-        @Query("page") page: Int =1,
+        @Query("page") page: Int = 1,
         @Query("size") size: Int = 10,
     ): BookDto
 }
