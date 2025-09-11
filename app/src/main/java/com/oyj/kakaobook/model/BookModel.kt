@@ -1,13 +1,8 @@
 package com.oyj.kakaobook.model
 
+import com.oyj.domain.entity.Book
+
 data class BookModel(
-    val isbn: String,
-    val title: String,
-    val author: List<String>,
-    val publisher: String,
-    val price: Int,
-    val salePrice: Int,
-    val dateTime: String,
-    val thumbnail: String,
-    val contents: String,
+    val bookItem: BookItem,
+    val book: Book
 )

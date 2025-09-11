@@ -3,6 +3,7 @@ package com.oyj.kakaobook.mapper
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
 import com.oyj.kakaobook.model.BookItem
+import com.oyj.kakaobook.model.BookModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -21,9 +22,22 @@ object PresenterMapper {
         )
     }
 
-    suspend fun List<Book>.toBookItemList(): List<BookItem> {
+    fun List<Book>.toBookItemList(): List<BookItem> {
         return map { book ->
             book.toBookItem(isBookmarked = false)
+        }
+    }
+
+    fun Book.toBookModel(isBookmarked: Boolean = false): BookModel {
+        return BookModel(
+            bookItem = toBookItem(),
+            book = this
+        )
+    }
+
+    fun List<Book>.toBookModelList() : List<BookModel> {
+        return map { book ->
+            book.toBookModel()
         }
     }
 }

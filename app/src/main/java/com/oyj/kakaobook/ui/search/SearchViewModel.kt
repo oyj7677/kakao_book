@@ -5,8 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oyj.domain.entity.Result
 import com.oyj.domain.usecase.GetBookListUseCase
-import com.oyj.kakaobook.mapper.PresenterMapper.toBookItemList
-import com.oyj.kakaobook.model.BookItem
+import com.oyj.domain.usecase.InsertBookmarkUseCase
+import com.oyj.kakaobook.mapper.PresenterMapper.toBookModelList
+import com.oyj.kakaobook.model.BookModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getBookListUseCase: GetBookListUseCase
+    private val getBookListUseCase: GetBookListUseCase,
+    private val insertBookmarkUseCase: InsertBookmarkUseCase
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -39,9 +41,8 @@ class SearchViewModel @Inject constructor(
             initialValue = ""
         )
 
-    private val _bookItemList = MutableStateFlow<List<BookItem>>(emptyList())
-    val bookList: StateFlow<List<BookItem>> = _bookItemList
-
+    private val _bookModelList = MutableStateFlow<List<BookModel>>(emptyList())
+    val bookList: StateFlow<List<BookModel>> = _bookModelList
 
     fun setQuery(query: String) {
         _query.value = query
@@ -52,7 +53,7 @@ class SearchViewModel @Inject constructor(
             when (it) {
                 is Result.Success -> {
                     Log.d(TAG, "searchBooks: ${it.data}")
-                    _bookItemList.value = it.data.toBookItemList()
+                    _bookModelList.value = it.data.toBookModelList()
                 }
 
                 is Result.Error -> {
@@ -62,6 +63,21 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    suspend fun insertBookmark(isbn: String) {
+        val bookModel = bookList.value.find { it.book.isbn == isbn } ?: return
+        insertBookmarkUseCase.invoke(bookModel.book).collect {
+            when (it) {
+                is Result.Success -> {
+                    Log.d(TAG, "insertBookmark: ${it.data}")
+                    // 북마크 추가 성공 처리 (예: UI 업데이트)
+                }
+
+                is Result.Error -> {
+                    TODO()
+                }
+            }
+        }
+    }
 
     companion object {
         private const val TAG = "SearchViewModel"
