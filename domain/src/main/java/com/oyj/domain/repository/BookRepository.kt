@@ -14,4 +14,6 @@ interface BookRepository {
     suspend fun deleteBookmark(isbn: String): Flow<Result<Boolean>>
 
     suspend fun checkBookmark(isbn: String): Flow<Result<Boolean>>
+
+    suspend fun batchCheckBookmarks(isbns: List<String>): Flow<Result<Map<String, Boolean>>>
 }
