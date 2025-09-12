@@ -11,6 +11,7 @@ class GetBookListUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(query: String): Flow<Result<List<Book>>> {
         return repository.getBookList(
-            query = query)
+            query = query
+        )
     }
 }

@@ -1,8 +1,6 @@
 package com.oyj.kakaobook.ui.search
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -18,9 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.oyj.kakaobook.model.BookItem
+import com.oyj.kakaobook.model.SearchUiState
 import com.oyj.kakaobook.model.SortCriteria
-import com.oyj.kakaobook.ui.component.BookItemCard
-import com.oyj.kakaobook.ui.component.EmptyState
+import com.oyj.kakaobook.model.Success
+import com.oyj.kakaobook.ui.component.SearchStateView
 import com.oyj.kakaobook.ui.component.SortCriteriaSelector
 import com.oyj.kakaobook.ui.component.TitleTopBar
 
@@ -30,13 +29,19 @@ fun SearchScreen(
     viewModel: SearchViewModel = viewModel()
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
-    val bookList by viewModel.bookList.collectAsStateWithLifecycle()
+    val searchUiState by viewModel.searchUiState.collectAsStateWithLifecycle()
+    var selectedCriteria by remember { mutableStateOf(SortCriteria.Accuracy) }
 
     SearchScreen(
         modifier = modifier,
         query = query,
-        bookList = bookList,
-        onQueryChanged = viewModel::setQuery
+        searchUiState = searchUiState,
+        selectedCriteria = selectedCriteria,
+        onQueryChanged = viewModel::setQuery,
+        onCriteriaSelected = { criteria ->
+            selectedCriteria = criteria as SortCriteria.Accuracy
+            // TODO: ViewModel에 정렬 로직 연결
+        }
     )
 }
 
@@ -44,11 +49,11 @@ fun SearchScreen(
 fun SearchScreen(
     modifier: Modifier = Modifier,
     query: String,
-    bookList: List<BookItem>,
+    searchUiState: SearchUiState,
+    selectedCriteria: SortCriteria,
     onQueryChanged: (String) -> Unit = {},
+    onCriteriaSelected: (SortCriteria) -> Unit = {},
 ) {
-    var selectedCriteria by remember { mutableStateOf(SortCriteria.Accuracy) }
-
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -81,31 +86,16 @@ fun SearchScreen(
             // 정렬 기준
             SortCriteriaSelector(
                 selectedCriteria = selectedCriteria,
-                onCriteriaSelected = { criteria ->
-//                    selectedCriteria = criteria
-                    // TODO: 정렬 로직 연결
-                }
+                onCriteriaSelected = onCriteriaSelected
             )
 
-            // 리스트
-            if (bookList.isEmpty()) {
-                // 빈 상태
-                EmptyState(
-                    icon = Icons.Default.Search,
-                    message = if (query.isEmpty()) "검색어를 입력해주세요" else "검색 결과가 없습니다"
-                )
-            } else {
-                // 책 리스트
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(bookList) { book ->
-                        BookItemCard(book = book)
-                    }
-                }
-            }
+            SearchStateView(
+                searchUiState = searchUiState,
+                query = query,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+            )
         }
     }
 }
@@ -115,11 +105,12 @@ fun SearchScreen(
 private fun SearchScreenPreview() {
     SearchScreen(
         query = "test",
-        bookList = listOf()
+        searchUiState = Success(
+            bookList = emptyList()
+        ),
+        selectedCriteria = SortCriteria.Accuracy
     )
 }
-
-
 @Preview
 @Composable
 private fun SearchScreenWithBooksPreview() {
@@ -155,6 +146,9 @@ private fun SearchScreenWithBooksPreview() {
 
     SearchScreen(
         query = "미드나잇",
-        bookList = sampleBooks
+        searchUiState = Success(
+            bookList = sampleBooks,
+        ),
+        selectedCriteria = SortCriteria.Accuracy
     )
 }
