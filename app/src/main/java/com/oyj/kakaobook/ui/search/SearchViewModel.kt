@@ -128,7 +128,7 @@ class SearchViewModel @Inject constructor(
                     _isLoading.value = false
                     _bookModelList.value = emptyList()
                     _bookmarkStates.value = emptyMap()
-                    _errorState.value = result.throwable.message ?: "검색 중 오류가 발생했습니다"
+                    _errorState.value = result.throwable.message ?: ERROR_SEARCH
                 }
             }
         }
@@ -203,14 +203,7 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
-
-    /**
-     * 에러 상태를 초기화합니다
-     */
-    fun clearError() {
-        _errorState.value = null
-    }
-
+    
     /**
      * 로컬 북마크 상태 업데이트 (즉시 UI 반영용)
      * @param isbn 업데이트할 책의 ISBN
@@ -297,5 +290,6 @@ class SearchViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "SearchViewModel"
+        private const val ERROR_SEARCH = "검색 중 오류가 발생했습니다"
     }
 }

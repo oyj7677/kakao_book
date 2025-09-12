@@ -1,5 +1,6 @@
 package com.oyj.kakaobook.mapper
 
+
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.model.BookItem
 import com.oyj.kakaobook.model.BookModel

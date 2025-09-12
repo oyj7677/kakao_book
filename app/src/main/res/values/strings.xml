@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">KakaoBook</string>
+    <string name="title_search">검색</string>
+
+    <string name="hint_search">제목 또는 저자를 입력하세요.</string>
+
+    <string name="description_searchbar_icon">검색 아이콘</string>
+    <string name="description_bookmark_image">즐겨찾기</string>
+    <string name="description_thumbnail_image">책 표지 이미지</string>
+    
+    <string name="text_no_result">검색 결과가 없습니다.</string>
+    <string name="text_init_result">검색어를 입력해주세요.</string>
+    <string name="text_publisher_info">출판사 : %s</string>
+    <string name="text_authors_info">저자 : %s</string>
+    <string name="text_date_time_info">출간일 : %s</string>
+    <string name="text_price_info">%s원</string>
+
+    <string name="error_search">검색 중 오류가 발생했습니다.</string>
 </resources>

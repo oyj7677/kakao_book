@@ -5,7 +5,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.oyj.kakaobook.model.BookItem
+import androidx.compose.ui.res.stringResource
+import com.oyj.kakaobook.R
 import com.oyj.kakaobook.model.Empty
 import com.oyj.kakaobook.model.Error
 import com.oyj.kakaobook.model.Init
@@ -38,7 +39,11 @@ fun SearchStateView(
                 // 빈 상태
                 EmptyState(
                     icon = Icons.Default.Search,
-                    message = if (query.isEmpty()) "검색어를 입력해주세요" else "검색 결과가 없습니다"
+                    message = if (query.isEmpty()) {
+                        stringResource(R.string.text_init_result)
+                    } else {
+                        stringResource(R.string.text_no_result)
+                    }
                 )
             } else {
                 // 책 리스트
@@ -49,18 +54,20 @@ fun SearchStateView(
                 )
             }
         }
+
         is Init -> {
             // 초기 상태
             EmptyState(
                 icon = Icons.Default.Search,
-                message = "검색어를 입력해주세요"
+                message = stringResource(R.string.text_init_result)
             )
         }
+
         is Empty -> {
             // 검색 결과 없음 상태
             EmptyState(
                 icon = Icons.Default.Search,
-                message = "검색 결과가 없습니다"
+                message = stringResource(R.string.text_no_result)
             )
         }
     }

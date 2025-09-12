@@ -7,10 +7,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,6 +20,7 @@ import com.oyj.kakaobook.model.Success
 import com.oyj.kakaobook.ui.component.SearchStateView
 import com.oyj.kakaobook.ui.component.SortCriteriaSelector
 import com.oyj.kakaobook.ui.component.TitleTopBar
+import com.oyj.kakaobook.R
 
 @Composable
 fun SearchScreen(
@@ -60,7 +59,7 @@ fun SearchScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TitleTopBar(title = "검색")
+            TitleTopBar(title = stringResource(id = R.string.title_search))
         }
     ) { paddingValues ->
         Column(
@@ -75,11 +74,11 @@ fun SearchScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                placeholder = { Text("책 제목을 검색해보세요") },
+                placeholder = { stringResource(id = R.string.hint_search) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "검색"
+                        contentDescription = stringResource(id = R.string.description_searchbar_icon)
                     )
                 },
                 shape = RoundedCornerShape(12.dp),
