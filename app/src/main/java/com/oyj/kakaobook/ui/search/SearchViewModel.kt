@@ -223,12 +223,77 @@ class SearchViewModel @Inject constructor(
     }
 
     fun setSortCriteria(criteria: SortCriteria) {
-        _selectedCriteria.value = criteria
-        _bookModelList.value = when (criteria) {
-            SortCriteria.Latest -> _bookModelList.value.sortedBy { it.bookItem.dateTime }
-            SortCriteria.Price -> _bookModelList.value.sortedBy { it.bookItem.price }
+        updateSortState(criteria)
+        applySorting()
+    }
+
+    /**
+     * 정렬 상태 업데이트
+     * 책임: 정렬 기준과 방향 상태만 관리
+     */
+    private fun updateSortState(criteria: SortCriteria) {
+        if (criteria == _selectedCriteria.value) {
+            toggleSortDirection()
+        } else {
+            _selectedCriteria.value = criteria
         }
     }
+
+    /**
+     * 정렬 방향 토글
+     * 책임: 정렬 방향 변경만 담당
+     */
+    private fun toggleSortDirection() {
+        _selectedCriteria.value.isAscending = !_selectedCriteria.value.isAscending
+    }
+
+    /**
+     * 정렬 적용
+     * 책임: 현재 정렬 상태에 따른 데이터 정렬만 담당
+     */
+    private fun applySorting() {
+        val currentList = _bookModelList.value
+        _bookModelList.value = when (_selectedCriteria.value) {
+            SortCriteria.Latest -> {
+                sortByMultipleCriteria(
+                    list = currentList,
+                    primarySelector = { it.book.dateTime },
+                    secondarySelector = { it.book.title },
+                    isAscending = _selectedCriteria.value.isAscending
+                )
+            }
+            SortCriteria.Price -> {
+                sortByMultipleCriteria(
+                    list = currentList,
+                    primarySelector = { it.book.price },
+                    secondarySelector = { it.book.title },
+                    isAscending = _selectedCriteria.value.isAscending
+                )
+            }
+        }
+    }
+
+    /**
+     * 범용 정렬 함수
+     * 책임: 1차 정렬 + 2차 정렬 + 정렬 방향을 모두 파라미터로 받아 처리
+     * @param list 정렬할 리스트
+     * @param primarySelector 1차 정렬 기준을 선택하는 함수
+     * @param secondarySelector 2차 정렬 기준을 선택하는 함수
+     * @param isAscending 정렬 방향 (true: 오름차순, false: 내림차순)
+     */
+    private fun <T : Comparable<T>, U : Comparable<U>> sortByMultipleCriteria(
+        list: List<BookModel>,
+        primarySelector: (BookModel) -> T,
+        secondarySelector: (BookModel) -> U,
+        isAscending: Boolean
+    ): List<BookModel> {
+        return if (isAscending) {
+            list.sortedWith(compareBy(primarySelector).thenBy(secondarySelector))
+        } else {
+            list.sortedWith(compareByDescending(primarySelector).thenBy(secondarySelector))
+        }
+    }
+
 
     companion object {
         private const val TAG = "SearchViewModel"
