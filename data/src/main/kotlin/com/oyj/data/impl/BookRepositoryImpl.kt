@@ -2,9 +2,13 @@ package com.oyj.data.impl
 
 import android.util.Log
 import android.util.LruCache
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.oyj.data.mapper.Mapper.toData
 import com.oyj.data.mapper.Mapper.toDomainList
 import com.oyj.data.source.local.BookLocalSource
+import com.oyj.data.source.paging.BookPagingSource
 import com.oyj.data.source.remote.BookRemoteSource
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
@@ -35,6 +39,10 @@ class BookRepositoryImpl @Inject constructor(
                 emit(Result.Error(it))
             }
         }
+    }
+
+    override suspend fun getBookListPaging(query: String): Flow<PagingData<Result<List<Book>>>> {
+
     }
 
     override suspend fun getBookmarkList(): Flow<Result<List<Book>>> {

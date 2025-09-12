@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.hilt.core)
     implementation(libs.coil.compose)
     ksp(libs.hilt.dagger.compiler)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockwebserver)

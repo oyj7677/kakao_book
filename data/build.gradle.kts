@@ -80,6 +80,9 @@ dependencies {
     // Coroutine
     implementation(libs.kotlinx.coroutines.core)
 
+    // paging
+    implementation(libs.androidx.paging.runtime)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
