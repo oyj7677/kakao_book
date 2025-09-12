@@ -8,5 +8,6 @@ data class BookItem(
     val authors: List<String>,
     val thumbnail: String,
     val price: Int,
+    val dateTime: String,
     val isBookmark: Boolean
 )

@@ -30,17 +30,16 @@ fun SearchScreen(
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val searchUiState by viewModel.searchUiState.collectAsStateWithLifecycle()
-    var selectedCriteria by remember { mutableStateOf(SortCriteria.Accuracy) }
+    val sortCriteria by viewModel.selectedCriteria.collectAsStateWithLifecycle()
 
     SearchScreen(
         modifier = modifier,
         query = query,
         searchUiState = searchUiState,
-        selectedCriteria = selectedCriteria,
+        selectedCriteria = sortCriteria,
         onQueryChanged = viewModel::setQuery,
         onCriteriaSelected = { criteria ->
-            selectedCriteria = criteria as SortCriteria.Accuracy
-            // TODO: ViewModel에 정렬 로직 연결
+            viewModel.setSortCriteria(criteria)
         },
         onClickBookmark = {
             viewModel.updateBookmark(it)
@@ -113,7 +112,7 @@ private fun SearchScreenPreview() {
         searchUiState = Success(
             bookList = emptyList()
         ),
-        selectedCriteria = SortCriteria.Accuracy
+        selectedCriteria = SortCriteria.Latest
     )
 }
 @Preview
@@ -128,6 +127,7 @@ private fun SearchScreenWithBooksPreview() {
             authors = listOf("매트 헤이그"),
             thumbnail = "",
             price = 13320,
+            dateTime = "2014-11-17T00:00:00.000+09:00",
             isBookmark = false
         ),
         BookItem(
@@ -138,6 +138,7 @@ private fun SearchScreenWithBooksPreview() {
             authors = listOf("손원평"),
             thumbnail = "",
             price = 12600,
+            dateTime = "2014-11-17T00:00:00.000+09:00",
             isBookmark = true
         ),
         BookItem(
@@ -148,6 +149,7 @@ private fun SearchScreenWithBooksPreview() {
             authors = listOf("게리 켈러", "제이 파파산"),
             thumbnail = "",
             price = 14400,
+            dateTime = "2014-11-17T00:00:00.000+09:00",
             isBookmark = false
         )
     )
@@ -157,6 +159,6 @@ private fun SearchScreenWithBooksPreview() {
         searchUiState = Success(
             bookList = sampleBooks,
         ),
-        selectedCriteria = SortCriteria.Accuracy
+        selectedCriteria = SortCriteria.Latest
     )
 }

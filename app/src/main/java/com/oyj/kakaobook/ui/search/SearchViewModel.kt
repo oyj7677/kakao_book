@@ -17,6 +17,7 @@ import com.oyj.kakaobook.model.Success
 import com.oyj.kakaobook.model.Error
 import com.oyj.kakaobook.model.Init
 import com.oyj.kakaobook.model.Loading
+import com.oyj.kakaobook.model.SortCriteria
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,6 +58,10 @@ class SearchViewModel @Inject constructor(
 
     // 로딩 상태를 별도로 관리
     private val _isLoading = MutableStateFlow(false)
+
+    // 정렬 상태
+    private val _selectedCriteria = MutableStateFlow<SortCriteria>(SortCriteria.Latest)
+    val selectedCriteria: StateFlow<SortCriteria> = _selectedCriteria
 
     // 검색 상태와 북마크 상태를 결합한 최종 UI 상태
     val searchUiState: StateFlow<SearchUiState> = combine(
@@ -215,6 +220,14 @@ class SearchViewModel @Inject constructor(
         val currentStates = _bookmarkStates.value.toMutableMap()
         currentStates[isbn] = isBookmarked
         _bookmarkStates.value = currentStates
+    }
+
+    fun setSortCriteria(criteria: SortCriteria) {
+        _selectedCriteria.value = criteria
+        _bookModelList.value = when (criteria) {
+            SortCriteria.Latest -> _bookModelList.value.sortedBy { it.bookItem.dateTime }
+            SortCriteria.Price -> _bookModelList.value.sortedBy { it.bookItem.price }
+        }
     }
 
     companion object {

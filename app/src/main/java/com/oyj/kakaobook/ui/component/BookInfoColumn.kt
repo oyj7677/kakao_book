@@ -116,6 +116,7 @@ fun BookInfoColumnPreview() {
         authors = listOf("Author1", "Author2"),
         price = 15000,
         thumbnail = "",
+        dateTime = "2014-11-17T00:00:00.000+09:00",
         isBookmark = true
     )
     BookInfoColumn(

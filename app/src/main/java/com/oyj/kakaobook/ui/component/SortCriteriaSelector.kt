@@ -38,7 +38,7 @@ fun SortCriteriaSelector(
 @Composable
 private fun SortCriteriaSelectorPreview() {
     SortCriteriaSelector(
-        selectedCriteria = SortCriteria.Accuracy,
+        selectedCriteria = SortCriteria.Latest,
         onCriteriaSelected = {}
     )
 }

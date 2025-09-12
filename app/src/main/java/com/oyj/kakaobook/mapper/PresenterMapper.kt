@@ -15,6 +15,7 @@ object PresenterMapper {
             authors = author,
             thumbnail = thumbnail,
             price = price,
+            dateTime = dateTime,
             isBookmark = isBookmarked
         )
     }

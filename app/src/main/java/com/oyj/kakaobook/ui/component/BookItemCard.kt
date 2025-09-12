@@ -76,6 +76,7 @@ private fun BookItemCardPreview() {
         authors = listOf("매트 헤이그"),
         thumbnail = "",
         price = 13320,
+        dateTime = "2014-11-17T00:00:00.000+09:00",
         isBookmark = true
     )
 
