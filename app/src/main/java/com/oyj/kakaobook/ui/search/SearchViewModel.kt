@@ -151,7 +151,16 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun insertBookmark(isbn: String) {
+    fun updateBookmark(isbn: String) {
+        val isCurrentlyBookmarked = _bookmarkStates.value[isbn] ?: false
+        if (isCurrentlyBookmarked) {
+            deleteBookmark(isbn)
+        } else {
+            insertBookmark(isbn)
+        }
+    }
+
+    private fun insertBookmark(isbn: String) {
         val bookModel = _bookModelList.value.find { it.book.isbn == isbn } ?: return
         viewModelScope.launch {
             insertBookmarkUseCase.invoke(bookModel.book).collect { result ->
@@ -171,7 +180,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteBookmark(isbn: String) {
+    private fun deleteBookmark(isbn: String) {
         viewModelScope.launch {
             deleteBookmarkUseCase.invoke(isbn).collect { result ->
                 when (result) {

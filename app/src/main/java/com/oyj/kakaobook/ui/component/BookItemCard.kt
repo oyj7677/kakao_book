@@ -23,7 +23,8 @@ import com.oyj.kakaobook.model.BookItem
 @Composable
 fun BookItemCard(
     book: BookItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickBookmark: (String) -> Unit = {}
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -52,7 +53,10 @@ fun BookItemCard(
             )
 
             // 도서 정보 컬럼
-            BookInfoColumn(book = book)
+            BookInfoColumn(
+                book = book,
+                onClickBookmark = onClickBookmark
+            )
         }
     }
 }
@@ -65,6 +69,7 @@ fun BookItemCard(
 @Composable
 private fun BookItemCardPreview() {
     val sampleBook = BookItem(
+        isbn = "1234567890",
         category = "소설",
         title = "미드나잇 라이브러리",
         publisher = "인플루엔셜",

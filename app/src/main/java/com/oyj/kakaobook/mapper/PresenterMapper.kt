@@ -8,6 +8,7 @@ object PresenterMapper {
 
     fun Book.toBookItem(isBookmarked: Boolean = false): BookItem {
         return BookItem(
+            isbn = isbn,
             category = "도서", // Book 엔티티에 category가 없어 빈 값 설정
             title = title,
             publisher = publisher,
@@ -16,12 +17,6 @@ object PresenterMapper {
             price = price,
             isBookmark = isBookmarked
         )
-    }
-
-    fun List<Book>.toBookItemList(): List<BookItem> {
-        return map { book ->
-            book.toBookItem(isBookmarked = false)
-        }
     }
 
     fun Book.toBookModel(isBookmarked: Boolean = false): BookModel {
@@ -55,10 +50,7 @@ object PresenterMapper {
     fun List<BookModel>.updateBookmarkStates(bookmarkStates: Map<String, Boolean>): List<BookItem> {
         return map { bookModel ->
             val isBookmarked = bookmarkStates[bookModel.book.isbn] ?: bookModel.bookItem.isBookmark
-            bookModel.copy(
-                bookItem = bookModel.bookItem.copy(isBookmark = isBookmarked)
-            )
-            bookModel.bookItem
+            bookModel.bookItem.copy(isBookmark = isBookmarked)
         }
     }
 }

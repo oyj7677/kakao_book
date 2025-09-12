@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.oyj.kakaobook.model.BookItem
 import com.oyj.kakaobook.model.Empty
 import com.oyj.kakaobook.model.Error
 import com.oyj.kakaobook.model.Init
@@ -16,7 +17,8 @@ import com.oyj.kakaobook.model.Success
 fun SearchStateView(
     searchUiState: SearchUiState,
     query: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickBookmark: (String) -> Unit = {}
 ) {
     when (searchUiState) {
         is Error -> {
@@ -43,6 +45,7 @@ fun SearchStateView(
                 SearchResultView(
                     modifier = modifier.fillMaxSize(),
                     bookList = searchUiState.bookList,
+                    onClickBookmark = onClickBookmark
                 )
             }
         }

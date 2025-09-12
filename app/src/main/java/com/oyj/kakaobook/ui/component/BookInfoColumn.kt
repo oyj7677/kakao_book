@@ -1,6 +1,8 @@
 package com.oyj.kakaobook.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,12 +24,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.oyj.kakaobook.model.BookItem
+import kotlin.String
 
 @Composable
 fun BookInfoColumn(
     book: BookItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickBookmark: (String) -> Unit = {}
 ) {
+    Log.d("TAG", "BookInfoColumn: $book ")
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -95,6 +100,7 @@ fun BookInfoColumn(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .size(24.dp)
+                .clickable { onClickBookmark(book.isbn) }
         )
     }
 }
@@ -103,6 +109,7 @@ fun BookInfoColumn(
 @Composable
 fun BookInfoColumnPreview() {
     val book = BookItem(
+        isbn = "1234567890",
         title = "Sample Book Title",
         category = "Sample Category",
         publisher = "Sample Publisher",

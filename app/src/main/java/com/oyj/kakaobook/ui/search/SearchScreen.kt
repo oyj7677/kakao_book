@@ -41,6 +41,9 @@ fun SearchScreen(
         onCriteriaSelected = { criteria ->
             selectedCriteria = criteria as SortCriteria.Accuracy
             // TODO: ViewModel에 정렬 로직 연결
+        },
+        onClickBookmark = {
+            viewModel.updateBookmark(it)
         }
     )
 }
@@ -53,6 +56,7 @@ fun SearchScreen(
     selectedCriteria: SortCriteria,
     onQueryChanged: (String) -> Unit = {},
     onCriteriaSelected: (SortCriteria) -> Unit = {},
+    onClickBookmark: (String) -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier,
@@ -94,7 +98,8 @@ fun SearchScreen(
                 query = query,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                onClickBookmark = onClickBookmark
             )
         }
     }
@@ -116,6 +121,7 @@ private fun SearchScreenPreview() {
 private fun SearchScreenWithBooksPreview() {
     val sampleBooks = listOf(
         BookItem(
+            isbn = "9788950982264",
             category = "소설",
             title = "미드나잇 라이브러리",
             publisher = "인플루엔셜",
@@ -125,6 +131,7 @@ private fun SearchScreenWithBooksPreview() {
             isBookmark = false
         ),
         BookItem(
+            isbn = "9788950982264",
             category = "에세이",
             title = "아몬드",
             publisher = "창비",
@@ -134,6 +141,7 @@ private fun SearchScreenWithBooksPreview() {
             isBookmark = true
         ),
         BookItem(
+            isbn = "9788950982264",
             category = "자기계발",
             title = "원씽 The One Thing",
             publisher = "비즈니스북스",
