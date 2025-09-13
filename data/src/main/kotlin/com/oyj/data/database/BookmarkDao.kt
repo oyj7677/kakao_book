@@ -19,4 +19,8 @@ interface BookmarkDao {
 
     @Query("SELECT * FROM bookmark")
     suspend fun getAllBookmark(): List<BookmarkEntity>
+
+    @Query("SELECT isbn FROM bookmark")
+    suspend fun getAllBookmarkIsbn(): List<String>
+
 }

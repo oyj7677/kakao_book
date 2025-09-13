@@ -143,6 +143,23 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAllBookmarkedIsbns(): Flow<Result<Set<String>>> {
+        return flow {
+            runCatching {
+                val isbnList = bookLocalSource.getAllBookmarkIsbn()
+                // 캐시에 모든 북마크 상태 저장
+                isbnList.forEach { isbn ->
+                    bookmarkCache.put(isbn, true)
+                }
+                emit(Result.Success(isbnList.toSet()))
+            }.onFailure {
+                Log.e(TAG, "getAllBookmarkedIsbns: ${it.message}")
+                emit(Result.Error(it))
+            }
+        }
+    }
+
+
     companion object {
         private const val TAG = "BookRepositoryImpl"
     }

@@ -7,4 +7,6 @@ interface BookLocalSource {
     suspend fun insertBookmark(bookmarkEntity: BookmarkEntity)
     suspend fun deleteBookmark(isbn: String)
     suspend fun checkBookmark(isbn: String): Boolean
+    suspend fun getAllBookmarkIsbn() : List<String>
+
 }

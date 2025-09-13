@@ -16,7 +16,8 @@ import com.oyj.kakaobook.model.BookItem
 fun SearchResultPagingView(
     modifier: Modifier = Modifier,
     bookList: LazyPagingItems<Book>,
-    onClickBookmark: (String) -> Unit = {}
+    bookmarkedIsbnSet: Set<String>,
+    onClickBookmark: (Book) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier,
@@ -27,11 +28,19 @@ fun SearchResultPagingView(
             count = bookList.itemCount,
             key = { index -> bookList[index]?.isbn ?: index }
         ) { index ->
-            val bookItem = bookList[index]?.toBookItem() ?: return@items
+            val isBookmark = bookmarkedIsbnSet.contains(bookList[index]?.isbn)
+            val bookItem = bookList[index]?.toBookItem(isBookmark) ?: return@items
             BookItemCard(
                 book = bookItem,
-                onClickBookmark = onClickBookmark
+                onClickBookmark = {
+                    val book = findBookByIsbn(bookList, bookItem.isbn) ?: return@BookItemCard
+                    onClickBookmark(book)
+                }
             )
         }
     }
+}
+
+fun findBookByIsbn(bookList: LazyPagingItems<Book>, isbn: String): Book? {
+    return bookList.itemSnapshotList.items.firstOrNull { it.isbn == isbn }
 }

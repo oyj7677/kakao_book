@@ -23,4 +23,8 @@ class BookLocalSourceImpl @Inject constructor(
     override suspend fun checkBookmark(isbn: String): Boolean {
         return bookmarkDao.isBookmarkExists(isbn)
     }
+
+    override suspend fun getAllBookmarkIsbn() : List<String> {
+        return bookmarkDao.getAllBookmarkIsbn()
+    }
 }

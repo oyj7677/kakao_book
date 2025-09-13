@@ -19,13 +19,15 @@ import com.oyj.kakaobook.model.Success
 @Composable
 fun SearchStatePagingView(
     bookList: LazyPagingItems<Book>,
+    bookmarkedIsbnSet: Set<String>,
     query: String,
     modifier: Modifier = Modifier,
-    onClickBookmark: (String) -> Unit = {}
+    onClickBookmark: (Book) -> Unit = {}
 ) {
     SearchResultPagingView(
         modifier = modifier.fillMaxSize(),
         bookList = bookList,
+        bookmarkedIsbnSet = bookmarkedIsbnSet,
         onClickBookmark = onClickBookmark
     )
 

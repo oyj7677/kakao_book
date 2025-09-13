@@ -1,6 +1,5 @@
 package com.oyj.kakaobook.ui.search
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,18 +29,20 @@ fun SearchPagingScreen(
     val query by viewModel.query.collectAsStateWithLifecycle()
     val bookList = viewModel.bookList.collectAsLazyPagingItems()
     val sortCriteria by viewModel.sortCriteria.collectAsStateWithLifecycle()
+    val bookmarkedIsbnSet by viewModel.bookmarkedIsbnSet.collectAsStateWithLifecycle()
 
     SearchPagingScreen(
         modifier = modifier,
         query = query,
         bookList = bookList,
+        bookmarkedIsbnSet = bookmarkedIsbnSet,
         sortCriteria = sortCriteria,
         onQueryChanged = viewModel::setQuery,
         onCriteriaSelected = { criteria ->
             viewModel.setSortCriteria(criteria)
         },
         onClickBookmark = {
-
+            viewModel.updateBookmark(it)
         }
     )
 }
@@ -51,10 +52,11 @@ fun SearchPagingScreen(
     modifier: Modifier = Modifier,
     query: String,
     bookList: LazyPagingItems<Book>,
+    bookmarkedIsbnSet: Set<String>,
     sortCriteria : SortCriteria,
     onQueryChanged: (String) -> Unit = {},
     onCriteriaSelected: (SortCriteria) -> Unit = {},
-    onClickBookmark: (String) -> Unit = {}
+    onClickBookmark: (Book) -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier,
@@ -93,6 +95,7 @@ fun SearchPagingScreen(
 
             SearchStatePagingView(
                 bookList = bookList,
+                bookmarkedIsbnSet = bookmarkedIsbnSet,
                 query = query,
                 modifier = Modifier
                     .fillMaxSize()
