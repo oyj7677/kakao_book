@@ -91,8 +91,7 @@ class SearchViewModel @Inject constructor(
         // 검색용 query 구독 (debounce, filter 적용)
         @OptIn(FlowPreview::class)
         viewModelScope.launch {
-            _query
-                .debounce(1000)
+            _query.debounce(1000)
                 .distinctUntilChanged()
                 .filter { it.isNotBlank() }
                 .collect { searchQuery ->

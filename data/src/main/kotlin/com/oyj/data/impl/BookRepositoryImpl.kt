@@ -7,11 +7,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.oyj.data.mapper.Mapper.toData
 import com.oyj.data.mapper.Mapper.toDomainList
+import com.oyj.data.source.RemotePagingSource
 import com.oyj.data.source.local.BookLocalSource
-import com.oyj.data.source.paging.BookPagingSource
 import com.oyj.data.source.remote.BookRemoteSource
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
+import com.oyj.domain.entity.SortCriteria
 import com.oyj.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -41,9 +42,16 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getBookListPaging(query: String): Flow<PagingData<Result<List<Book>>>> {
-
+    override suspend fun getBookListPaging(
+        query: String,
+        sortCriteria: SortCriteria
+    ): Flow<PagingData<Book>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { RemotePagingSource(bookRemoteSource, query, sortCriteria) }
+        ).flow
     }
+
 
     override suspend fun getBookmarkList(): Flow<Result<List<Book>>> {
         return flow {

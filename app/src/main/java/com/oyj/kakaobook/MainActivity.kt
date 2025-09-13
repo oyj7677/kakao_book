@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.oyj.kakaobook.ui.search.SearchPagingScreen
 import com.oyj.kakaobook.ui.search.SearchScreen
 import com.oyj.kakaobook.ui.search.SearchViewModel
 import com.oyj.kakaobook.ui.theme.KakaoBookTheme
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             KakaoBookTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SearchScreen(
+                    SearchPagingScreen(
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
