@@ -70,7 +70,6 @@ class SearchPagingViewModel @Inject constructor(
                 .filter { (query, _) -> query.isNotBlank() }
                 .distinctUntilChanged()
                 .flatMapLatest { (query, sortCriteria) ->
-                    Log.d(TAG, "새로운 검색 요청: query=$query, sort=$sortCriteria")
                     getBookListPagingUseCase(query, sortCriteria)
                 }.collect {
                     _bookList.value = it
@@ -79,7 +78,6 @@ class SearchPagingViewModel @Inject constructor(
     }
 
     fun setQuery(keyword: String) {
-        Log.d(TAG, "setQuery: $keyword")
         _query.value = keyword
     }
 

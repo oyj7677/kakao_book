@@ -27,7 +27,7 @@ fun SortCriteriaSelectorPaging(
         SortCriteria.getAllCriteria().forEach { criteria ->
             FilterChip(
                 onClick = { onCriteriaSelected(criteria) },
-                label = { Text(criteria.value) },
+                label = { Text(criteria.displayName) },
                 selected = selectedCriteria == criteria
             )
         }
