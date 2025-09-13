@@ -1,5 +1,6 @@
 package com.oyj.kakaobook.ui.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,7 +55,7 @@ fun SearchPagingScreen(
     query: String,
     bookList: LazyPagingItems<Book>,
     bookmarkedIsbnSet: Set<String>,
-    sortCriteria : SortCriteria,
+    sortCriteria: SortCriteria,
     onQueryChanged: (String) -> Unit = {},
     onCriteriaSelected: (SortCriteria) -> Unit = {},
     onClickBookmark: (Book) -> Unit = {}
@@ -105,66 +107,3 @@ fun SearchPagingScreen(
         }
     }
 }
-
-//@Preview
-//@Composable
-//private fun SearchScreenPreview() {
-//    SearchPagingScreen(
-//        query = "test",
-//        searchUiState = Success(
-//            bookList = emptyList()
-//        ),
-//        sortCriteria = SortCriteria.Accuracy,
-//        bookList = TODO(),
-//        onQueryChanged = TODO(),
-//        onCriteriaSelected = TODO(),
-//        onClickBookmark = TODO()
-//    )
-//}
-//@Preview
-//@Composable
-//private fun SearchScreenWithBooksPreview() {
-//    val sampleBooks = listOf(
-//        BookItem(
-//            isbn = "9788950982264",
-//            category = "소설",
-//            title = "미드나잇 라이브러리",
-//            publisher = "인플루엔셜",
-//            authors = listOf("매트 헤이그"),
-//            thumbnail = "",
-//            price = 13320,
-//            dateTime = "2014-11-17T00:00:00.000+09:00",
-//            isBookmark = false
-//        ),
-//        BookItem(
-//            isbn = "9788950982264",
-//            category = "에세이",
-//            title = "아몬드",
-//            publisher = "창비",
-//            authors = listOf("손원평"),
-//            thumbnail = "",
-//            price = 12600,
-//            dateTime = "2014-11-17T00:00:00.000+09:00",
-//            isBookmark = true
-//        ),
-//        BookItem(
-//            isbn = "9788950982264",
-//            category = "자기계발",
-//            title = "원씽 The One Thing",
-//            publisher = "비즈니스북스",
-//            authors = listOf("게리 켈러", "제이 파파산"),
-//            thumbnail = "",
-//            price = 14400,
-//            dateTime = "2014-11-17T00:00:00.000+09:00",
-//            isBookmark = false
-//        )
-//    )
-//
-//    SearchScreen(
-//        query = "미드나잇",
-//        searchUiState = Success(
-//            bookList = sampleBooks,
-//        ),
-//        selectedCriteria = SortCriteria.Accuracy
-//    )
-//}

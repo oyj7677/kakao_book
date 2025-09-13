@@ -41,11 +41,8 @@ class SearchPagingViewModel @Inject constructor(
     private val _bookmarkedIsbnSet = MutableStateFlow<Set<String>>(emptySet())
     val bookmarkedIsbnSet: StateFlow<Set<String>> = _bookmarkedIsbnSet
 
-
     private val _sortCriteria = MutableStateFlow<SortCriteria>(SortCriteria.Accuracy)
     val sortCriteria: StateFlow<SortCriteria> = _sortCriteria
-
-    private val _bookList = MutableStateFlow<PagingData<Book>>(PagingData.empty())
 
     @OptIn(FlowPreview::class)
     val bookList: StateFlow<PagingData<Book>> =
