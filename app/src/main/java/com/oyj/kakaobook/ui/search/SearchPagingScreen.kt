@@ -1,6 +1,5 @@
 package com.oyj.kakaobook.ui.search
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -8,7 +7,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -17,7 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.oyj.domain.entity.Book
-import com.oyj.domain.entity.SortCriteria
+import com.oyj.kakaobook.model.SearchSortCriteria
 import com.oyj.kakaobook.ui.component.TitleTopBar
 import com.oyj.kakaobook.R
 import com.oyj.kakaobook.ui.component.SearchStatePagingView
@@ -30,7 +28,7 @@ fun SearchPagingScreen(
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val bookList = viewModel.bookList.collectAsLazyPagingItems()
-    val sortCriteria by viewModel.sortCriteria.collectAsStateWithLifecycle()
+    val sortCriteria by viewModel.searchSortCriteria.collectAsStateWithLifecycle()
     val bookmarkedIsbnSet by viewModel.bookmarkedIsbnSet.collectAsStateWithLifecycle()
 
     SearchPagingScreen(
@@ -38,7 +36,7 @@ fun SearchPagingScreen(
         query = query,
         bookList = bookList,
         bookmarkedIsbnSet = bookmarkedIsbnSet,
-        sortCriteria = sortCriteria,
+        searchSortCriteria = sortCriteria,
         onQueryChanged = viewModel::setQuery,
         onCriteriaSelected = { criteria ->
             viewModel.setSortCriteria(criteria)
@@ -55,9 +53,9 @@ fun SearchPagingScreen(
     query: String,
     bookList: LazyPagingItems<Book>,
     bookmarkedIsbnSet: Set<String>,
-    sortCriteria: SortCriteria,
+    searchSortCriteria: SearchSortCriteria,
     onQueryChanged: (String) -> Unit = {},
-    onCriteriaSelected: (SortCriteria) -> Unit = {},
+    onCriteriaSelected: (SearchSortCriteria) -> Unit = {},
     onClickBookmark: (Book) -> Unit = {}
 ) {
     Scaffold(
@@ -91,7 +89,7 @@ fun SearchPagingScreen(
 
             // 정렬 기준
             SortCriteriaSelectorPaging(
-                selectedCriteria = sortCriteria,
+                selectedCriteria = searchSortCriteria,
                 onCriteriaSelected = onCriteriaSelected
             )
 

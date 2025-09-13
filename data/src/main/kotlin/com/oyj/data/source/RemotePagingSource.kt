@@ -5,13 +5,12 @@ import androidx.paging.PagingState
 import com.oyj.data.mapper.Mapper.toDomainList
 import com.oyj.data.source.remote.BookRemoteSource
 import com.oyj.domain.entity.Book
-import com.oyj.domain.entity.SortCriteria
 import javax.inject.Inject
 
 class RemotePagingSource @Inject constructor(
     private val bookRemoteSource: BookRemoteSource,
     private val query: String,
-    private val sortCriteria: SortCriteria
+    private val sortCriteria: String
 ) : PagingSource<Int, Book>() {
     override fun getRefreshKey(state: PagingState<Int, Book>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -28,7 +27,7 @@ class RemotePagingSource @Inject constructor(
                 query = query,
                 page = page,
                 size = size,
-                sort = sortCriteria.value
+                sort = sortCriteria
             )
             val bookList = bookDto.toDomainList().distinctBy { it.isbn }
             val isEnd = bookDto.meta.isEnd

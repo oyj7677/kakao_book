@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
-import com.oyj.domain.entity.SortCriteria
+import com.oyj.kakaobook.model.SearchSortCriteria
 import com.oyj.domain.usecase.DeleteBookmarkUseCase
 import com.oyj.domain.usecase.GetBookListPagingUseCase
 import com.oyj.domain.usecase.GetBookmarkedIsbnsUseCase
@@ -41,12 +41,12 @@ class SearchPagingViewModel @Inject constructor(
     private val _bookmarkedIsbnSet = MutableStateFlow<Set<String>>(emptySet())
     val bookmarkedIsbnSet: StateFlow<Set<String>> = _bookmarkedIsbnSet
 
-    private val _sortCriteria = MutableStateFlow<SortCriteria>(SortCriteria.Accuracy)
-    val sortCriteria: StateFlow<SortCriteria> = _sortCriteria
+    private val _Search_sortCriteria = MutableStateFlow<SearchSortCriteria>(SearchSortCriteria.Accuracy)
+    val searchSortCriteria: StateFlow<SearchSortCriteria> = _Search_sortCriteria
 
     @OptIn(FlowPreview::class)
     val bookList: StateFlow<PagingData<Book>> =
-        combine(_query, _sortCriteria) { query, sortCriteria ->
+        combine(_query, _Search_sortCriteria) { query, sortCriteria ->
             Pair(query, sortCriteria)
         }.debounce(500)
             .filter { (query, _) -> query.isNotBlank() }
@@ -56,14 +56,13 @@ class SearchPagingViewModel @Inject constructor(
                     // 빈 쿼리일 경우 빈 PagingData 반환
                     MutableStateFlow(PagingData.empty())
                 } else {
-                    getBookListPagingUseCase(query, sortCriteria)
+                    getBookListPagingUseCase(query, sortCriteria.value)
                 }
             }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = PagingData.empty(),
             )
-
 
     init {
         viewModelScope.launch {
@@ -75,9 +74,9 @@ class SearchPagingViewModel @Inject constructor(
         _query.value = keyword
     }
 
-    fun setSortCriteria(sortCriteria: SortCriteria) {
-        if (sortCriteria == _sortCriteria.value) return
-        _sortCriteria.value = sortCriteria
+    fun setSortCriteria(searchSortCriteria: SearchSortCriteria) {
+        if (searchSortCriteria == _Search_sortCriteria.value) return
+        _Search_sortCriteria.value = searchSortCriteria
     }
 
     fun updateBookmark(book: Book) {

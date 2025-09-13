@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.oyj.domain.entity.SortCriteria
+import com.oyj.kakaobook.model.SearchSortCriteria
 
 @Composable
 fun SortCriteriaSelectorPaging(
-    selectedCriteria: SortCriteria,
-    onCriteriaSelected: (SortCriteria) -> Unit,
+    selectedCriteria: SearchSortCriteria,
+    onCriteriaSelected: (SearchSortCriteria) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -24,7 +24,7 @@ fun SortCriteriaSelectorPaging(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        SortCriteria.getAllCriteria().forEach { criteria ->
+        SearchSortCriteria.getSearchCriteria().forEach { criteria ->
             FilterChip(
                 onClick = { onCriteriaSelected(criteria) },
                 label = { Text(criteria.displayName) },
@@ -38,7 +38,7 @@ fun SortCriteriaSelectorPaging(
 @Composable
 private fun SortCriteriaSelectorPreview() {
     SortCriteriaSelectorPaging(
-        selectedCriteria = SortCriteria.Accuracy,
+        selectedCriteria = SearchSortCriteria.Accuracy,
         onCriteriaSelected = {}
     )
 }

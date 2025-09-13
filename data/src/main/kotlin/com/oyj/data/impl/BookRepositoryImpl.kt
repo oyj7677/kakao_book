@@ -12,7 +12,6 @@ import com.oyj.data.source.local.BookLocalSource
 import com.oyj.data.source.remote.BookRemoteSource
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
-import com.oyj.domain.entity.SortCriteria
 import com.oyj.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -44,7 +43,7 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getBookListPaging(
         query: String,
-        sortCriteria: SortCriteria
+        sortCriteria: String
     ): Flow<PagingData<Book>> {
         return Pager(
             config = PagingConfig(pageSize = 20, enablePlaceholders = false),
