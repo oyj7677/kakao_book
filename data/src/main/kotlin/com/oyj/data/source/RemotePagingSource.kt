@@ -24,21 +24,22 @@ class RemotePagingSource @Inject constructor(
         val page = params.key ?: 1
         val size = 20
         return try {
-            val bookList = bookRemoteSource.getBookListWithPaging(
+            val bookDto = bookRemoteSource.getBookListWithPaging(
                 query = query,
                 page = page,
                 size = size,
                 sort = sortCriteria.value
-            ).toDomainList().distinctBy { it.isbn }
+            )
+            val bookList = bookDto.toDomainList().distinctBy { it.isbn }
+            val isEnd = bookDto.meta.isEnd
 
             LoadResult.Page(
                 data = bookList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (bookList.isEmpty()) null else page + 1
+                nextKey = if (isEnd) null else page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-
     }
 }

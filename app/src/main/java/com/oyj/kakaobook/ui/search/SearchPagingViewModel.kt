@@ -41,39 +41,36 @@ class SearchPagingViewModel @Inject constructor(
     private val _bookmarkedIsbnSet = MutableStateFlow<Set<String>>(emptySet())
     val bookmarkedIsbnSet: StateFlow<Set<String>> = _bookmarkedIsbnSet
 
-    private val _bookList = MutableStateFlow<PagingData<Book>>(PagingData.empty())
-
-    @OptIn(FlowPreview::class)
-    val bookList: StateFlow<PagingData<Book>> = _bookList
-        .debounce(1000L)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = PagingData.empty(),
-        )
 
     private val _sortCriteria = MutableStateFlow<SortCriteria>(SortCriteria.Accuracy)
     val sortCriteria: StateFlow<SortCriteria> = _sortCriteria
 
+    private val _bookList = MutableStateFlow<PagingData<Book>>(PagingData.empty())
+
+    @OptIn(FlowPreview::class)
+    val bookList: StateFlow<PagingData<Book>> =
+        combine(_query, _sortCriteria) { query, sortCriteria ->
+            Pair(query, sortCriteria)
+        }.debounce(500)
+            .filter { (query, _) -> query.isNotBlank() }
+            .distinctUntilChanged()
+            .flatMapLatest { (query, sortCriteria) ->
+                if (query.isBlank()) {
+                    // 빈 쿼리일 경우 빈 PagingData 반환
+                    MutableStateFlow(PagingData.empty())
+                } else {
+                    getBookListPagingUseCase(query, sortCriteria)
+                }
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = PagingData.empty(),
+            )
+
+
     init {
-        observeSearchParameters()
         viewModelScope.launch {
             updateBookmarkedIsbns()
-        }
-    }
-
-    private fun observeSearchParameters() {
-        viewModelScope.launch {
-            combine(_query, _sortCriteria) { query, sortCriteria ->
-                Pair(query, sortCriteria)
-            }.debounce(500)
-                .filter { (query, _) -> query.isNotBlank() }
-                .distinctUntilChanged()
-                .flatMapLatest { (query, sortCriteria) ->
-                    getBookListPagingUseCase(query, sortCriteria)
-                }.collect {
-                    _bookList.value = it
-                }
         }
     }
 
@@ -111,6 +108,7 @@ class SearchPagingViewModel @Inject constructor(
                     newIsbnSet.add(book.isbn)
                     _bookmarkedIsbnSet.value = newIsbnSet
                 }
+
                 is Result.Error -> {
                     Log.e(TAG, "insertBookmark: ${result.throwable}")
                     throw result.throwable
@@ -128,6 +126,7 @@ class SearchPagingViewModel @Inject constructor(
                     newIsbnSet.remove(book.isbn)
                     _bookmarkedIsbnSet.value = newIsbnSet
                 }
+
                 is Result.Error -> {
                     Log.e(TAG, "deleteBookmark: ${result.throwable}")
                     throw result.throwable
@@ -143,6 +142,7 @@ class SearchPagingViewModel @Inject constructor(
                     Log.d(TAG, "getAllBookmarkedIsbns: ${result.data.size}")
                     _bookmarkedIsbnSet.value = result.data
                 }
+
                 is Result.Error -> {
                     Log.e(TAG, "getAllBookmarkedIsbns: ${result.throwable}")
                 }
