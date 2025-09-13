@@ -15,6 +15,7 @@ import com.oyj.kakaobook.model.SearchSortCriteria
 @Composable
 fun SortCriteriaSelectorPaging(
     selectedCriteria: SearchSortCriteria,
+    sortCriteriaList: List<SearchSortCriteria>,
     onCriteriaSelected: (SearchSortCriteria) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -24,7 +25,7 @@ fun SortCriteriaSelectorPaging(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        SearchSortCriteria.getSearchCriteria().forEach { criteria ->
+        sortCriteriaList.forEach { criteria ->
             FilterChip(
                 onClick = { onCriteriaSelected(criteria) },
                 label = { Text(criteria.displayName) },
@@ -39,6 +40,7 @@ fun SortCriteriaSelectorPaging(
 private fun SortCriteriaSelectorPreview() {
     SortCriteriaSelectorPaging(
         selectedCriteria = SearchSortCriteria.Accuracy,
+        sortCriteriaList = SearchSortCriteria.getSearchCriteria(),
         onCriteriaSelected = {}
     )
 }

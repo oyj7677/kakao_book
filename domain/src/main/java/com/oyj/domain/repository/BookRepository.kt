@@ -9,7 +9,7 @@ interface BookRepository {
     suspend fun getBookList(query: String): Flow<Result<List<Book>>>
     suspend fun getBookListPaging(query: String, sortCriteria: String): Flow<PagingData<Book>>
 
-    suspend fun getBookmarkList(): Flow<Result<List<Book>>>
+    fun getBookmarkListPaging(query: String, sortCriteria: String): Flow<PagingData<Book>>
 
     suspend fun insertBookmark(book: Book): Flow<Result<Boolean>>
 

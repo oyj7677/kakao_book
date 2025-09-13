@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">KakaoBook</string>
     <string name="title_search">검색</string>
+    <string name="title_bookmark">즐겨찾기</string>
 
     <string name="hint_search">제목 또는 저자를 입력하세요.</string>
 

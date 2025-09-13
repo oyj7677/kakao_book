@@ -1,4 +1,4 @@
-package com.oyj.kakaobook.ui.search
+package com.oyj.kakaobook.ui.bookmark
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,16 +22,16 @@ import com.oyj.kakaobook.ui.component.SearchStatePagingView
 import com.oyj.kakaobook.ui.component.SortCriteriaSelectorPaging
 
 @Composable
-fun SearchPagingScreen(
+fun BookmarkPagingScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchPagingViewModel = viewModel()
+    viewModel: BookmarkPagingViewModel = viewModel()
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val bookList = viewModel.bookList.collectAsLazyPagingItems()
     val sortCriteria by viewModel.searchSortCriteria.collectAsStateWithLifecycle()
     val bookmarkedIsbnSet by viewModel.bookmarkedIsbnSet.collectAsStateWithLifecycle()
 
-    SearchPagingScreen(
+    BookmarkPagingScreen(
         modifier = modifier,
         query = query,
         bookList = bookList,
@@ -48,7 +48,7 @@ fun SearchPagingScreen(
 }
 
 @Composable
-fun SearchPagingScreen(
+fun BookmarkPagingScreen(
     modifier: Modifier = Modifier,
     query: String,
     bookList: LazyPagingItems<Book>,
@@ -61,7 +61,7 @@ fun SearchPagingScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TitleTopBar(title = stringResource(id = R.string.title_search))
+            TitleTopBar(title = stringResource(id = R.string.title_bookmark))
         }
     ) { paddingValues ->
         Column(
@@ -90,7 +90,7 @@ fun SearchPagingScreen(
             // 정렬 기준
             SortCriteriaSelectorPaging(
                 selectedCriteria = searchSortCriteria,
-                sortCriteriaList = SearchSortCriteria.getSearchCriteria(),
+                sortCriteriaList = SearchSortCriteria.getBookmarkCriteria(),
                 onCriteriaSelected = onCriteriaSelected
             )
 

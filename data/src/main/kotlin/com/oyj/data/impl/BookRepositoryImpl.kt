@@ -5,7 +5,9 @@ import android.util.LruCache
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.oyj.data.mapper.Mapper.toData
+import com.oyj.data.mapper.Mapper.toDomain
 import com.oyj.data.mapper.Mapper.toDomainList
 import com.oyj.data.source.RemotePagingSource
 import com.oyj.data.source.local.BookLocalSource
@@ -15,6 +17,7 @@ import com.oyj.domain.entity.Result
 import com.oyj.domain.repository.BookRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
@@ -51,16 +54,15 @@ class BookRepositoryImpl @Inject constructor(
         ).flow
     }
 
-
-    override suspend fun getBookmarkList(): Flow<Result<List<Book>>> {
-        return flow {
-            runCatching {
-                val bookList = bookLocalSource.getBookmarkList().toDomainList()
-                emit(Result.Success(bookList))
-            }.onFailure {
-                Log.e(TAG, "getBookmarkList: ${it.message}")
-                emit(Result.Error(it))
-            }
+    override fun getBookmarkListPaging(
+        query: String,
+        sortCriteria: String
+    ): Flow<PagingData<Book>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { bookLocalSource.getBookmarkList(query, sortCriteria) }
+        ).flow.map { pagingData ->
+            pagingData.map{ it.toDomain()}
         }
     }
 
