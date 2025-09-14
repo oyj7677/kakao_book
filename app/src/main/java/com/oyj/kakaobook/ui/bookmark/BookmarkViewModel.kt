@@ -91,7 +91,6 @@ class BookmarkViewModel @Inject constructor(
 
     fun updateBookmark(book: Book) {
         viewModelScope.launch {
-            // 1. 즉시 UI 상태 업데이트 (optimistic update)
             val currentBookmarks = _bookmarkedIsbnSet.value.toMutableSet()
             val isCurrentlyBookmarked = currentBookmarks.contains(book.isbn)
 
@@ -102,7 +101,6 @@ class BookmarkViewModel @Inject constructor(
             }
             _bookmarkedIsbnSet.value = currentBookmarks
 
-            // 2. 백그라운드에서 실제 DB 작업 수행
             try {
                 if (isCurrentlyBookmarked) {
                     deleteBookmarkInBackground(book)
@@ -110,7 +108,6 @@ class BookmarkViewModel @Inject constructor(
                     insertBookmarkInBackground(book)
                 }
             } catch (e: Exception) {
-                // 3. 실패 시 UI 상태 롤백
                 Log.e(TAG, "updateBookmark failed: ${e.message}")
                 val rollbackBookmarks = _bookmarkedIsbnSet.value.toMutableSet()
                 if (isCurrentlyBookmarked) {
@@ -128,7 +125,6 @@ class BookmarkViewModel @Inject constructor(
             when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "insertBookmark success: ${result.data}")
-                    // UI는 이미 업데이트되었으므로 추가 작업 없음
                 }
 
                 is Result.Error -> {
@@ -144,7 +140,6 @@ class BookmarkViewModel @Inject constructor(
             when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "deleteBookmark success: ${result.data}")
-                    // UI는 이미 업데이트되었으므로 추가 작업 없음
                 }
 
                 is Result.Error -> {

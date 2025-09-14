@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun LoadingView(modifier: Modifier = Modifier) {
-    // 로딩 상태
     Box(
         modifier = Modifier
             .fillMaxSize(),

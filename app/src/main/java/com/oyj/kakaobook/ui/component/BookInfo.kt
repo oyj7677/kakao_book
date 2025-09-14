@@ -21,16 +21,6 @@ import com.oyj.kakaobook.ui.component.ComponentConstants.Text.MAX_LINES_SINGLE
 import com.oyj.kakaobook.ui.component.ComponentConstants.Typography
 import com.oyj.kakaobook.util.DateUtil
 
-/**
- * 도서 상세 정보를 표시하는 컴포넌트
- * @param book 표시할 도서 정보
- * @param modifier 컴포넌트에 적용할 Modifier
- * @param showCategory 카테고리 표시 여부 (기본값: true)
- * @param showPublisher 출판사 표시 여부 (기본값: true)
- * @param showAuthors 저자 표시 여부 (기본값: true)
- * @param showPublishDate 출간일 표시 여부 (기본값: true)
- * @param showPrice 가격 표시 여부 (기본값: true)
- */
 @Composable
 fun BookInfo(
     book: BookItem,

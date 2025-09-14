@@ -26,7 +26,6 @@ fun BookInfoColumn(
     Box(
         modifier = modifier.padding(Padding.EXTRA_SMALL)
     ) {
-        // 도서 정보 표시 컴포넌트 사용
         BookInfo(book = book)
 
         // 즐겨찾기 하트 이미지 (오른쪽 상단)

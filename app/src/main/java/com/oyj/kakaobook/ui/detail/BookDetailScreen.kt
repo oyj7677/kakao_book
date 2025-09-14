@@ -18,12 +18,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.oyj.domain.entity.Book
+import com.oyj.kakaobook.R
 import com.oyj.kakaobook.data.BookItemDetail
 import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
 import com.oyj.kakaobook.ui.detail.component.BookInfoSection
@@ -74,30 +76,33 @@ fun BookDetailScreen(
                 .background(Color.White)
                 .padding(paddingValues)
         ) {
-            // Top Bar
+            // 탑바
             DetailTopBar(
                 onClickBack = onClickBack,
                 onClickBookmark = onClickBookmark,
                 isBookmarked = book.isBookmark
             )
 
-            // Title
+            // 책 제목
             Text(
                 text = book.title,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            // Book Info
+            // 책 정보
             BookInfoSection(
                 book = book
             )
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            // Contents Section
+            // 책 소개
             Column {
-                Text("책 소개", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = stringResource(id = R.string.text_book_introduction),
+                    style = MaterialTheme.typography.titleMedium
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 Box(
                     modifier = Modifier
