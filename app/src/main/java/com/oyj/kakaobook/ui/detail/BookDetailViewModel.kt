@@ -1,5 +1,6 @@
 package com.oyj.kakaobook.ui.detail
 
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -57,7 +58,9 @@ class BookDetailViewModel @Inject constructor(
                         _bookItemDetail.value = book.toBookItemDetail(isBookmarked)
                     }
 
-                    is Result.Error -> TODO()
+                    is Result.Error -> {
+                        Log.e(TAG, "updateBookItemDetail: ${result.throwable.stackTrace}")
+                    }
                 }
             }
         }
@@ -79,7 +82,9 @@ class BookDetailViewModel @Inject constructor(
                         _bookItemDetail.value = book.toBookItemDetail(true)
                     }
 
-                    is Result.Error -> TODO()
+                    is Result.Error -> {
+                        Log.e(TAG, "insertBookmark: ${result.throwable.stackTrace}")
+                    }
                 }
             }
         }
@@ -93,9 +98,14 @@ class BookDetailViewModel @Inject constructor(
                         _bookItemDetail.value = book.toBookItemDetail(false)
                     }
 
-                    is Result.Error -> TODO()
+                    is Result.Error -> {
+                        Log.e(TAG, "deleteBookmark: ${result.throwable.stackTrace}")
+                    }
                 }
             }
         }
+    }
+    companion object {
+        private const val TAG = "BookDetailViewModel"
     }
 }
