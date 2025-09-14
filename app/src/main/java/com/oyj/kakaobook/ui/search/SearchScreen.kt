@@ -1,6 +1,5 @@
 package com.oyj.kakaobook.ui.search
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -25,9 +24,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 
 @Composable
-fun SearchPagingScreen(
+fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchPagingViewModel = hiltViewModel(),
+    viewModel: SearchViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
@@ -40,7 +39,7 @@ fun SearchPagingScreen(
         viewModel.updateBookmarkedIsbns()
     }
 
-    SearchPagingScreen(
+    SearchScreen(
         modifier = modifier,
         query = query,
         bookList = bookList,
@@ -60,7 +59,7 @@ fun SearchPagingScreen(
 }
 
 @Composable
-fun SearchPagingScreen(
+fun SearchScreen(
     modifier: Modifier = Modifier,
     query: String,
     bookList: LazyPagingItems<Book>,

@@ -1,4 +1,4 @@
-package com.oyj.kakaobook.ui.search
+package com.oyj.kakaobook.ui.bookmark
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,9 +9,10 @@ import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
 import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.domain.usecase.DeleteBookmarkUseCase
-import com.oyj.domain.usecase.GetBookListPagingUseCase
+import com.oyj.domain.usecase.GetBookmarkPagingUseCase
 import com.oyj.domain.usecase.GetBookmarkedIsbnsUseCase
 import com.oyj.domain.usecase.InsertBookmarkUseCase
+import com.oyj.kakaobook.data.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -29,8 +29,8 @@ import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
-class SearchPagingViewModel @Inject constructor(
-    private val getBookListPagingUseCase: GetBookListPagingUseCase,
+class BookmarkViewModel @Inject constructor(
+    private val getBookmarkPagingUseCase: GetBookmarkPagingUseCase,
     private val getBookmarkedIsbnsUseCase: GetBookmarkedIsbnsUseCase,
     private val insertBookmarkUseCase: InsertBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
@@ -42,24 +42,20 @@ class SearchPagingViewModel @Inject constructor(
     private val _bookmarkedIsbnSet = MutableStateFlow<Set<String>>(emptySet())
     val bookmarkedIsbnSet: StateFlow<Set<String>> = _bookmarkedIsbnSet
 
-    private val _searchSortCriteria =
-        MutableStateFlow<SearchSortCriteria>(SearchSortCriteria.Accuracy)
+    private val _searchSortCriteria = MutableStateFlow<SearchSortCriteria>(SearchSortCriteria.Title)
     val searchSortCriteria: StateFlow<SearchSortCriteria> = _searchSortCriteria
+
+    private val _sortOrder = MutableStateFlow<SortOrder>(SortOrder.Ascending)
 
     @OptIn(FlowPreview::class)
     val bookList: StateFlow<PagingData<Book>> =
-        combine(_query, _searchSortCriteria) { query, sortCriteria ->
-            Pair(query, sortCriteria)
+        combine(_query, _searchSortCriteria, _sortOrder) { query, sortCriteria, sortOrder ->
+            Triple(query, sortCriteria, sortOrder)
         }.debounce(500)
-            .filter { (query, _) -> query.isNotBlank() }
             .distinctUntilChanged()
-            .flatMapLatest { (query, sortCriteria) ->
-                if (query.isBlank()) {
-                    // 빈 쿼리일 경우 빈 PagingData 반환
-                    MutableStateFlow(PagingData.empty())
-                } else {
-                    getBookListPagingUseCase(query, sortCriteria.value)
-                }
+            .flatMapLatest { (query, sortCriteria, sortOrder) ->
+                Log.d(TAG, "${sortCriteria.value}_${sortOrder.value}")
+                getBookmarkPagingUseCase(query, "${sortCriteria.value}_${sortOrder.value}")
             }.cachedIn(viewModelScope)
             .stateIn(
                 scope = viewModelScope,
@@ -78,56 +74,81 @@ class SearchPagingViewModel @Inject constructor(
     }
 
     fun setSortCriteria(searchSortCriteria: SearchSortCriteria) {
-        if (searchSortCriteria == _searchSortCriteria.value) return
-        _searchSortCriteria.value = searchSortCriteria
+        if (searchSortCriteria == _searchSortCriteria.value) {
+            changeSortOrder()
+        } else {
+            _searchSortCriteria.value = searchSortCriteria
+        }
+    }
+
+    private fun changeSortOrder() {
+        _sortOrder.value = if (_sortOrder.value == SortOrder.Ascending) {
+            SortOrder.Descending
+        } else {
+            SortOrder.Ascending
+        }
     }
 
     fun updateBookmark(book: Book) {
         viewModelScope.launch {
+            // 1. 즉시 UI 상태 업데이트 (optimistic update)
+            val currentBookmarks = _bookmarkedIsbnSet.value.toMutableSet()
+            val isCurrentlyBookmarked = currentBookmarks.contains(book.isbn)
+
+            if (isCurrentlyBookmarked) {
+                currentBookmarks.remove(book.isbn)
+            } else {
+                currentBookmarks.add(book.isbn)
+            }
+            _bookmarkedIsbnSet.value = currentBookmarks
+
+            // 2. 백그라운드에서 실제 DB 작업 수행
             try {
-                if (bookmarkedIsbnSet.value.contains(book.isbn)) {
-                    deleteBookmark(book)
+                if (isCurrentlyBookmarked) {
+                    deleteBookmarkInBackground(book)
                 } else {
-                    insertBookmark(book)
+                    insertBookmarkInBackground(book)
                 }
-                // 북마크 작업 완료 후 상태 업데이트
-                updateBookmarkedIsbns()
             } catch (e: Exception) {
+                // 3. 실패 시 UI 상태 롤백
                 Log.e(TAG, "updateBookmark failed: ${e.message}")
+                val rollbackBookmarks = _bookmarkedIsbnSet.value.toMutableSet()
+                if (isCurrentlyBookmarked) {
+                    rollbackBookmarks.add(book.isbn) // 삭제 실패 시 다시 추가
+                } else {
+                    rollbackBookmarks.remove(book.isbn) // 추가 실패 시 다시 제거
+                }
+                _bookmarkedIsbnSet.value = rollbackBookmarks
             }
         }
     }
 
-    private suspend fun insertBookmark(book: Book) {
+    private suspend fun insertBookmarkInBackground(book: Book) {
         insertBookmarkUseCase.invoke(book).collect { result ->
             when (result) {
                 is Result.Success -> {
-                    Log.d(TAG, "insertBookmark: ${result.data}")
-                    val newIsbnSet = _bookmarkedIsbnSet.value.toMutableSet()
-                    newIsbnSet.add(book.isbn)
-                    _bookmarkedIsbnSet.value = newIsbnSet
+                    Log.d(TAG, "insertBookmark success: ${result.data}")
+                    // UI는 이미 업데이트되었으므로 추가 작업 없음
                 }
 
                 is Result.Error -> {
-                    Log.e(TAG, "insertBookmark: ${result.throwable}")
+                    Log.e(TAG, "insertBookmark error: ${result.throwable}")
                     throw result.throwable
                 }
             }
         }
     }
 
-    private suspend fun deleteBookmark(book: Book) {
+    private suspend fun deleteBookmarkInBackground(book: Book) {
         deleteBookmarkUseCase.invoke(book.isbn).collect { result ->
             when (result) {
                 is Result.Success -> {
-                    Log.d(TAG, "deleteBookmark: ${result.data}")
-                    val newIsbnSet = _bookmarkedIsbnSet.value.toMutableSet()
-                    newIsbnSet.remove(book.isbn)
-                    _bookmarkedIsbnSet.value = newIsbnSet
+                    Log.d(TAG, "deleteBookmark success: ${result.data}")
+                    // UI는 이미 업데이트되었으므로 추가 작업 없음
                 }
 
                 is Result.Error -> {
-                    Log.e(TAG, "deleteBookmark: ${result.throwable}")
+                    Log.e(TAG, "deleteBookmark error: ${result.throwable}")
                     throw result.throwable
                 }
             }
@@ -150,6 +171,6 @@ class SearchPagingViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "SearchPagingViewModel"
+        private const val TAG = "BookmarkPagingViewModel"
     }
 }

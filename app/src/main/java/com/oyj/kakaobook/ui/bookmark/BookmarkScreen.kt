@@ -24,9 +24,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 
 @Composable
-fun BookmarkPagingScreen(
+fun BookmarkScreen(
     modifier: Modifier = Modifier,
-    viewModel: BookmarkPagingViewModel = hiltViewModel(),
+    viewModel: BookmarkViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
@@ -38,7 +38,7 @@ fun BookmarkPagingScreen(
         viewModel.updateBookmarkedIsbns()
     }
 
-    BookmarkPagingScreen(
+    BookmarkScreen(
         modifier = modifier,
         query = query,
         bookList = bookList,
@@ -58,7 +58,7 @@ fun BookmarkPagingScreen(
 }
 
 @Composable
-fun BookmarkPagingScreen(
+fun BookmarkScreen(
     modifier: Modifier = Modifier,
     query: String,
     bookList: LazyPagingItems<Book>,

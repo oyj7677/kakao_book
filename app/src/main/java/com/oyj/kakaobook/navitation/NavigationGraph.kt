@@ -4,13 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import androidx.navigation.NavType
 import androidx.navigation.toRoute
 import com.oyj.domain.entity.Book
-import com.oyj.kakaobook.ui.bookmark.BookmarkPagingScreen
+import com.oyj.kakaobook.ui.bookmark.BookmarkScreen
 import com.oyj.kakaobook.ui.detail.BookDetailScreen
-import com.oyj.kakaobook.ui.search.SearchPagingScreen
+import com.oyj.kakaobook.ui.search.SearchScreen
 
 @Composable
 fun NavigationGraph(navHostController: NavHostController) {
@@ -20,10 +18,10 @@ fun NavigationGraph(navHostController: NavHostController) {
         startDestination = Screen.Search.route
     ) {
         composable(Screen.Search.route) {
-            SearchPagingScreen(navController = navHostController)
+            SearchScreen(navController = navHostController)
         }
         composable(Screen.Bookmark.route) {
-            BookmarkPagingScreen(navController = navHostController)
+            BookmarkScreen(navController = navHostController)
         }
 
         composable<Book> { backStackEntry ->
