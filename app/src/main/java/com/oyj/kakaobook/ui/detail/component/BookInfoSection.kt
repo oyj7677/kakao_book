@@ -1,16 +1,16 @@
 package com.oyj.kakaobook.ui.detail.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -21,13 +21,21 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.oyj.kakaobook.R
 import com.oyj.kakaobook.data.BookItemDetail
+import com.oyj.kakaobook.ui.component.ComponentConstants.Card
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
+import com.oyj.kakaobook.ui.component.ComponentConstants.Size
 
 @Composable
 fun BookInfoSection(
     book: BookItemDetail,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        verticalAlignment = Alignment.Top
+    ) {
         // Thumbnail Image
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -36,15 +44,16 @@ fun BookInfoSection(
                 .build(),
             contentDescription = stringResource(R.string.description_thumbnail_image),
             modifier = Modifier
-                .size(110.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFFF5F5F5)),
+                .clip(RoundedCornerShape(Card.CORNER_RADIUS_SMALL))
+                .width(Size.THUMBNAIL_WIDTH)
+                .height(Size.THUMBNAIL_HEIGHT),
             contentScale = ContentScale.Crop,
+            alignment = Alignment.Center,
             placeholder = painterResource(android.R.drawable.ic_menu_gallery),
             error = painterResource(android.R.drawable.ic_menu_gallery)
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(Padding.LARGE))
 
         // Metadata
         BookMetadata(
@@ -55,12 +64,14 @@ fun BookInfoSection(
             isbn = book.isbn,
             price = book.price,
             salePrice = book.salePrice,
-            modifier = Modifier.align(Alignment.Top)
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
         )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun BookInfoSectionPreview() {
     val sampleBook = BookItemDetail(

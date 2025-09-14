@@ -15,6 +15,9 @@
     <string name="text_authors_info">저자 : %s</string>
     <string name="text_date_time_info">출간일 : %s</string>
     <string name="text_price_info">%s원</string>
+    <string name="text_sale_price_info">할인가 : %s원</string>
+    <string name="text_isbn">ISBN : %s</string>
+
 
     <string name="error_search">검색 중 오류가 발생했습니다.</string>
 </resources>

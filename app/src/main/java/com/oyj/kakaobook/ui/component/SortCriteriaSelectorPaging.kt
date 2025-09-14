@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.oyj.kakaobook.data.SearchSortCriteria
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
 
 @Composable
 fun SortCriteriaSelectorPaging(
@@ -22,8 +23,8 @@ fun SortCriteriaSelectorPaging(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(horizontal = Padding.LARGE, vertical = Padding.SMALL),
+        horizontalArrangement = Arrangement.spacedBy(Padding.SMALL)
     ) {
         sortCriteriaList.forEach { criteria ->
             FilterChip(

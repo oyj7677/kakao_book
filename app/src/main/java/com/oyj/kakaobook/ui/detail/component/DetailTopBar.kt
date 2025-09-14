@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.oyj.kakaobook.ui.component.ComponentConstants.Size
 
 @Composable
 fun DetailTopBar(
@@ -26,11 +27,11 @@ fun DetailTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp),
+            .height(Size.TOP_BAR_HEIGHT),
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(onClick = onClickBack) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
         }
         Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = onClickBookmark) {
@@ -47,7 +48,7 @@ fun DetailTopBar(
 private fun DetailTopBarPreview() {
     DetailTopBar(
         isBookmarked = true,
-        onClickBack = { /* Preview - no action */ },
-        onClickBookmark = { /* Preview - no action */ }
+        onClickBack = { },
+        onClickBookmark = { }
     )
 }

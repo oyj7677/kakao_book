@@ -5,8 +5,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.oyj.kakaobook.R
+import com.oyj.kakaobook.util.DateUtil
 
 @Composable
 fun BookMetadata(
@@ -19,30 +21,41 @@ fun BookMetadata(
     salePrice: Int,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         Text(
             "저자 : ${author.joinToString()}",
             style = MaterialTheme.typography.bodyMedium
         )
-        if (translator.isNotEmpty()) {
-            Text(
-                "번역 : ${translator.joinToString()}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
-        Text("출판사 : $publisher", style = MaterialTheme.typography.bodyMedium)
-        Text("출간일 : $dateTime", style = MaterialTheme.typography.bodyMedium)
         Text(
-            "ISBN : $isbn",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Bold
+            "번역 : ${translator.joinToString()}",
+            style = MaterialTheme.typography.bodyMedium
         )
-        Text("정상가 : ${price}원", style = MaterialTheme.typography.bodyMedium)
-        Text("할인가 : ${salePrice}원", style = MaterialTheme.typography.bodyMedium)
+        Text(
+            text = stringResource(R.string.text_publisher_info, publisher),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.text_date_time_info, DateUtil.formatDateToYMD(dateTime)),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.text_isbn, isbn),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.text_price_info, price),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = stringResource(R.string.text_sale_price_info, salePrice),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun BookMetadataPreview() {
     BookMetadata(

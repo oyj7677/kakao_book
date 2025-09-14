@@ -18,7 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
+import com.oyj.kakaobook.ui.component.ComponentConstants.Size
 
 @Composable
 fun EmptyState(
@@ -39,10 +40,10 @@ fun EmptyState(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(Size.ICON_LARGE),
                 tint = iconTint
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(Padding.LARGE))
             Text(
                 text = message,
                 color = textColor,

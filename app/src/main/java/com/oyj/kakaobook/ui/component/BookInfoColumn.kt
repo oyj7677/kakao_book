@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.oyj.kakaobook.R
 import com.oyj.kakaobook.data.BookItem
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
+import com.oyj.kakaobook.ui.component.ComponentConstants.Size
 import kotlin.String
 
 @Composable
@@ -25,7 +28,7 @@ fun BookInfoColumn(
 ) {
     Log.d("TAG", "BookInfoColumn: $book ")
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.padding(Padding.EXTRA_SMALL)
     ) {
         // 도서 정보 표시 컴포넌트 사용
         BookInfo(book = book)
@@ -42,7 +45,7 @@ fun BookInfoColumn(
             contentDescription = stringResource(R.string.description_bookmark_image),
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .size(24.dp)
+                .size(Size.ICON_MEDIUM)
                 .clickable { onClickBookmark(book.isbn) }
         )
     }

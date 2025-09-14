@@ -41,6 +41,7 @@ fun BookDetailScreen(
         viewModel.updateBookItemDetail()
     }
     BookDetailScreen(
+        modifier = modifier,
         book = bookDetail,
         onClickBack = {
             navController.popBackStack()
@@ -53,14 +54,16 @@ fun BookDetailScreen(
 
 @Composable
 fun BookDetailScreen(
+    modifier: Modifier = Modifier,
     book: BookItemDetail,
     onClickBack: () -> Unit,
     onClickBookmark: () -> Unit
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White)
-        .padding(horizontal = 16.dp)
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(horizontal = 16.dp)
     ) {
         // Top Bar
         DetailTopBar(
@@ -77,20 +80,25 @@ fun BookDetailScreen(
         )
 
         // Book Info
-        BookInfoSection(book = book)
+        BookInfoSection(
+            book = book
+        )
 
         Spacer(modifier = Modifier.height(18.dp))
 
         // Contents Section
-        Text("책 소개", style = MaterialTheme.typography.titleMedium)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(Color(0xFFF5F5F5), RoundedCornerShape(12.dp))
-                .padding(10.dp)
-        ) {
-            Text(book.contents, style = MaterialTheme.typography.bodyMedium)
+        Column {
+            Text("책 소개", style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(Color(0xFFF5F5F5), RoundedCornerShape(12.dp))
+                    .padding(10.dp)
+            ) {
+                Text(book.contents, style = MaterialTheme.typography.bodyMedium)
+            }
         }
     }
 }

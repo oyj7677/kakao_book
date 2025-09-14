@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import com.oyj.kakaobook.ui.component.ComponentConstants.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -19,7 +19,7 @@ fun TitleTopBar(
         title = {
             Text(
                 text = title,
-                fontSize = 24.sp,
+                fontSize = Typography.TITLE_LARGE_SIZE,
                 fontWeight = FontWeight.Bold
             )
         },

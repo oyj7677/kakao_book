@@ -1,7 +1,6 @@
 package com.oyj.kakaobook.ui.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,10 +14,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.oyj.kakaobook.R
 import com.oyj.kakaobook.data.BookItem
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
+import com.oyj.kakaobook.ui.component.ComponentConstants.Text.MAX_LINES_SINGLE
+import com.oyj.kakaobook.ui.component.ComponentConstants.Typography
 import com.oyj.kakaobook.util.DateUtil
 
 /**
@@ -48,9 +48,8 @@ fun BookInfo(
         if (showCategory) {
             Text(
                 text = book.category,
-                fontSize = 12.sp,
+                fontSize = Typography.CAPTION_SIZE,
                 color = Color.Gray,
-                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -58,11 +57,10 @@ fun BookInfo(
         // 도서 제목
         Text(
             text = book.title,
-            fontSize = 16.sp,
+            fontSize = Typography.TITLE_SIZE,
             fontWeight = FontWeight.Bold,
-            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(vertical = 4.dp)
+            modifier = Modifier.padding(vertical = Padding.EXTRA_SMALL)
         )
 
         // 출판사
@@ -72,9 +70,9 @@ fun BookInfo(
                     id = R.string.text_publisher_info,
                     book.publisher
                 ),
-                fontSize = 12.sp,
+                fontSize = Typography.CAPTION_SIZE,
                 color = Color.Gray,
-                maxLines = 1,
+                maxLines = MAX_LINES_SINGLE,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -86,9 +84,9 @@ fun BookInfo(
                     id = R.string.text_authors_info,
                     book.authors.joinToString(", ")
                 ),
-                fontSize = 12.sp,
+                fontSize = Typography.CAPTION_SIZE,
                 color = Color.Gray,
-                maxLines = 1,
+                maxLines = MAX_LINES_SINGLE,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -100,28 +98,27 @@ fun BookInfo(
                     id = R.string.text_date_time_info,
                     DateUtil.formatDateToYMD(book.dateTime)
                 ),
-                fontSize = 12.sp,
+                fontSize = Typography.CAPTION_SIZE,
                 color = Color.Gray,
-                maxLines = 1,
+                maxLines = MAX_LINES_SINGLE,
                 overflow = TextOverflow.Ellipsis
             )
         }
 
-        // 가격을 가장 아래로 밀어내기 위한 Spacer
+        // 가격
         if (showPrice) {
-            Spacer(modifier = Modifier.weight(1f))
-
-            // 가격 (오른쪽 정렬)
             Text(
                 text = stringResource(
                     id = R.string.text_price_info,
                     book.price
                 ),
-                fontSize = 14.sp,
+                fontSize = Typography.BODY_SIZE,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.End
+                maxLines = MAX_LINES_SINGLE,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
