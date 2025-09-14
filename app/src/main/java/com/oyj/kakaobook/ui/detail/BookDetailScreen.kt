@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +25,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.data.BookItemDetail
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
 import com.oyj.kakaobook.ui.detail.component.BookInfoSection
 import com.oyj.kakaobook.ui.detail.component.DetailTopBar
 
@@ -59,45 +61,53 @@ fun BookDetailScreen(
     onClickBack: () -> Unit,
     onClickBookmark: () -> Unit
 ) {
-    Column(
+    Scaffold(
         modifier = modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 16.dp)
-    ) {
-        // Top Bar
-        DetailTopBar(
-            onClickBack = onClickBack,
-            onClickBookmark = onClickBookmark,
-            isBookmarked = book.isBookmark
-        )
+            .padding(
+                horizontal = Padding.LARGE,
+                vertical = Padding.SMALL
+            ),
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(paddingValues)
+        ) {
+            // Top Bar
+            DetailTopBar(
+                onClickBack = onClickBack,
+                onClickBookmark = onClickBookmark,
+                isBookmarked = book.isBookmark
+            )
 
-        // Title
-        Text(
-            text = book.title,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+            // Title
+            Text(
+                text = book.title,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
 
-        // Book Info
-        BookInfoSection(
-            book = book
-        )
+            // Book Info
+            BookInfoSection(
+                book = book
+            )
 
-        Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
-        // Contents Section
-        Column {
-            Text("책 소개", style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .background(Color(0xFFF5F5F5), RoundedCornerShape(12.dp))
-                    .padding(10.dp)
-            ) {
-                Text(book.contents, style = MaterialTheme.typography.bodyMedium)
+            // Contents Section
+            Column {
+                Text("책 소개", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(Color(0xFFF5F5F5), RoundedCornerShape(12.dp))
+                        .padding(10.dp)
+                ) {
+                    Text(book.contents, style = MaterialTheme.typography.bodyMedium)
+                }
             }
         }
     }

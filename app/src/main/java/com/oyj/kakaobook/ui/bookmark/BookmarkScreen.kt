@@ -24,6 +24,7 @@ import com.oyj.kakaobook.ui.component.SearchStateView
 import com.oyj.kakaobook.ui.component.SortCriteriaSelector
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
 
 @Composable
 fun BookmarkScreen(
@@ -72,7 +73,11 @@ fun BookmarkScreen(
     onClickCard: (Book) -> Unit = {}
 ) {
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .padding(
+                horizontal = Padding.LARGE,
+                vertical = Padding.SMALL
+            ),
         topBar = {
             TitleTopBar(title = stringResource(id = R.string.title_bookmark))
         }
@@ -87,8 +92,7 @@ fun BookmarkScreen(
                 value = query,
                 onValueChange = onQueryChanged,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .fillMaxWidth(),
                 placeholder = { stringResource(id = R.string.hint_search) },
                 leadingIcon = {
                     Icon(
@@ -116,7 +120,7 @@ fun BookmarkScreen(
                 query = query,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp),
+                    .weight(1f),
                 onClickBookmark = onClickBookmark,
                 onClickCard = onClickCard
             )

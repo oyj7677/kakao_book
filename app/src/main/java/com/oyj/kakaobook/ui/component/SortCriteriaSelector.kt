@@ -21,8 +21,7 @@ fun SortCriteriaSelector(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = Padding.LARGE, vertical = Padding.SMALL),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(Padding.SMALL)
     ) {
         sortCriteriaList.forEach { criteria ->
