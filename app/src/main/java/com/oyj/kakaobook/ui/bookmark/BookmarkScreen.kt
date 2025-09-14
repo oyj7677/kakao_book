@@ -93,7 +93,11 @@ fun BookmarkScreen(
                 onValueChange = onQueryChanged,
                 modifier = Modifier
                     .fillMaxWidth(),
-                placeholder = { stringResource(id = R.string.hint_search) },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.hint_search)
+                    )
+                },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
