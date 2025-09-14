@@ -1,5 +1,6 @@
 package com.oyj.data.database
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,6 +18,18 @@ interface BookmarkDao {
     @Query("SELECT EXISTS(SELECT 1 FROM bookmark WHERE isbn = :isbn)")
     suspend fun isBookmarkExists(isbn: String): Boolean
 
-    @Query("SELECT * FROM bookmark")
-    suspend fun getAllBookmark(): List<BookmarkEntity>
+    @Query("""
+        SELECT * FROM bookmark 
+        WHERE (:query = '' OR title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%')
+        ORDER BY 
+        CASE WHEN :sort = 'Title_ASC' THEN title END ASC,
+        CASE WHEN :sort = 'Title_DESC' THEN title END DESC,
+        CASE WHEN :sort = 'Price_ASC' THEN price END ASC,
+        CASE WHEN :sort = 'Price_DESC' THEN price END DESC
+    """)
+    fun getAllBookmark(query: String = "", sort: String = ""): PagingSource<Int, BookmarkEntity>
+
+    @Query("SELECT isbn FROM bookmark")
+    suspend fun getAllBookmarkIsbn(): List<String>
+
 }

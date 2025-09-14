@@ -10,4 +10,18 @@ class BookRemoteSourceImpl @Inject constructor(
     override suspend fun getBookList(query: String): BookDto {
         return kakaoSearchApi.searchBooks(query)
     }
+
+    override suspend fun getBookListWithPaging(
+        query: String,
+        page: Int,
+        size: Int,
+        sort: String
+    ): BookDto {
+        return kakaoSearchApi.searchBooks(
+            query = query,
+            sort = sort,
+            page = page,
+            size = size
+        )
+    }
 }

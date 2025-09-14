@@ -72,6 +72,7 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
 
     // serialize
@@ -79,6 +80,9 @@ dependencies {
 
     // Coroutine
     implementation(libs.kotlinx.coroutines.core)
+
+    // paging
+    implementation(libs.androidx.paging.runtime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

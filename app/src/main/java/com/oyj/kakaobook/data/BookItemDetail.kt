@@ -1,9 +1,6 @@
-package com.oyj.domain.entity
+package com.oyj.kakaobook.data
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class Book(
+data class BookItemDetail(
     val isbn: String,
     val title: String,
     val author: List<String>,
@@ -13,5 +10,6 @@ data class Book(
     val salePrice: Int,
     val dateTime: String,
     val thumbnail: String,
-    val contents: String
+    val contents: String,
+    val isBookmark: Boolean,
 )

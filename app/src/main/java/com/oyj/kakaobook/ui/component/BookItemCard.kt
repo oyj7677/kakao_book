@@ -1,0 +1,99 @@
+package com.oyj.kakaobook.ui.component
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.oyj.kakaobook.R
+import com.oyj.kakaobook.data.BookItem
+import com.oyj.kakaobook.ui.component.ComponentConstants.Card
+import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
+
+@Composable
+fun BookItemCard(
+    book: BookItem,
+    modifier: Modifier = Modifier,
+    onClickBookmark: (String) -> Unit = {},
+    onClickCard: (String) -> Unit = {}
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clickable { onClickCard(book.isbn) },
+        elevation = CardDefaults.cardElevation(defaultElevation = Card.ELEVATION),
+        shape = RoundedCornerShape(Card.CORNER_RADIUS)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Padding.EXTRA_SMALL),
+            horizontalArrangement = Arrangement.spacedBy(Padding.MEDIUM),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // 도서 썸네일
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(book.thumbnail)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(R.string.description_thumbnail_image),
+                modifier = Modifier
+                    .weight(1f),
+                contentScale = ContentScale.FillWidth,
+                placeholder = painterResource(android.R.drawable.ic_menu_gallery),
+                error = painterResource(android.R.drawable.ic_menu_gallery)
+            )
+
+            // 도서 정보 컬럼
+            BookInfoColumn(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxHeight(),
+                book = book,
+                onClickBookmark = onClickBookmark
+            )
+        }
+    }
+}
+
+@Preview(
+    showBackground = true,
+    widthDp = 360,
+    heightDp = 180
+)
+@Composable
+private fun BookItemCardPreview() {
+    val sampleBook = BookItem(
+        isbn = "1234567890",
+        category = "소설",
+        title = "미드나잇 라이브러리",
+        publisher = "인플루엔셜",
+        authors = listOf("매트 헤이그"),
+        thumbnail = "",
+        price = 13320,
+        dateTime = "2014-11-17T00:00:00.000+09:00",
+        isBookmark = true
+    )
+
+    BookItemCard(
+        book = sampleBook,
+        modifier = Modifier.padding(Padding.SMALL)
+    )
+}
