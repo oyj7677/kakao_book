@@ -1,6 +1,5 @@
 package com.oyj.kakaobook.ui.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,8 +9,6 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.mapper.PresenterMapper.toBookItem
-
-private const val TAG = "SearchResultPagingView"
 
 @Composable
 fun SearchResultPagingView(
@@ -40,7 +37,6 @@ fun SearchResultPagingView(
                 },
                 onClickCard = {
                     val book = findBookByIsbn(bookList, bookItem.isbn) ?: return@BookItemCard
-                    Log.d(TAG, "SearchResultPagingView: 44 onClickCard : ${book.title}")
                     onClickCard(book)
                 }
             )
