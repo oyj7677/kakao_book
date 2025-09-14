@@ -6,10 +6,9 @@ import com.oyj.domain.entity.Result
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
-    suspend fun getBookList(query: String): Flow<Result<List<Book>>>
-    suspend fun getBookListPaging(query: String, sortCriteria: String): Flow<PagingData<Book>>
+    suspend fun getBookList(query: String, sortCriteria: String): Flow<PagingData<Book>>
 
-    fun getBookmarkListPaging(query: String, sortCriteria: String): Flow<PagingData<Book>>
+    fun getBookmarkList(query: String, sortCriteria: String): Flow<PagingData<Book>>
 
     suspend fun insertBookmark(book: Book): Flow<Result<Boolean>>
 

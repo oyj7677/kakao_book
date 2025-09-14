@@ -9,8 +9,8 @@ import javax.inject.Inject
 class GetBookmarkPagingUseCase @Inject constructor(
     private val repository: BookRepository
 ) {
-    suspend operator fun invoke(query: String, sortCriteria: String): Flow<PagingData<Book>> {
-        return repository.getBookmarkListPaging(
+    operator fun invoke(query: String, sortCriteria: String): Flow<PagingData<Book>> {
+        return repository.getBookmarkList(
             query = query,
             sortCriteria = sortCriteria
         )

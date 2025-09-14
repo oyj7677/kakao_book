@@ -9,7 +9,7 @@ import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
 import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.domain.usecase.DeleteBookmarkUseCase
-import com.oyj.domain.usecase.GetBookListPagingUseCase
+import com.oyj.domain.usecase.GetBookListUseCase
 import com.oyj.domain.usecase.GetBookmarkedIsbnsUseCase
 import com.oyj.domain.usecase.InsertBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -30,7 +29,7 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getBookListPagingUseCase: GetBookListPagingUseCase,
+    private val getBookListUseCase: GetBookListUseCase,
     private val getBookmarkedIsbnsUseCase: GetBookmarkedIsbnsUseCase,
     private val insertBookmarkUseCase: InsertBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
@@ -57,7 +56,7 @@ class SearchViewModel @Inject constructor(
                     // 빈 쿼리일 경우 빈 PagingData 반환
                     MutableStateFlow(PagingData.empty())
                 } else {
-                    getBookListPagingUseCase(query, sortCriteria.value)
+                    getBookListUseCase(query, sortCriteria.value)
                 }
             }.cachedIn(viewModelScope)
             .stateIn(

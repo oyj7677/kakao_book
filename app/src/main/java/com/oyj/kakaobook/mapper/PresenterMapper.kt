@@ -4,7 +4,6 @@ package com.oyj.kakaobook.mapper
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.data.BookItem
 import com.oyj.kakaobook.data.BookItemDetail
-import com.oyj.kakaobook.model.BookModel
 
 object PresenterMapper {
 
@@ -19,13 +18,6 @@ object PresenterMapper {
             price = price,
             dateTime = dateTime,
             isBookmark = isBookmarked
-        )
-    }
-
-    fun Book.toBookModel(isBookmarked: Boolean = false): BookModel {
-        return BookModel(
-            bookItem = toBookItem(isBookmarked),
-            book = this
         )
     }
 

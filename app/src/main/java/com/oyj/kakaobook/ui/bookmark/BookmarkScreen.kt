@@ -20,8 +20,8 @@ import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.kakaobook.ui.component.TitleTopBar
 import com.oyj.kakaobook.R
-import com.oyj.kakaobook.ui.component.SearchStatePagingView
-import com.oyj.kakaobook.ui.component.SortCriteriaSelectorPaging
+import com.oyj.kakaobook.ui.component.SearchStateView
+import com.oyj.kakaobook.ui.component.SortCriteriaSelector
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 
@@ -104,13 +104,13 @@ fun BookmarkScreen(
             )
 
             // 정렬 기준
-            SortCriteriaSelectorPaging(
+            SortCriteriaSelector(
                 selectedCriteria = searchSortCriteria,
                 sortCriteriaList = SearchSortCriteria.getBookmarkCriteria(),
                 onCriteriaSelected = onCriteriaSelected
             )
 
-            SearchStatePagingView(
+            SearchStateView(
                 bookList = bookList,
                 bookmarkedIsbnSet = bookmarkedIsbnSet,
                 query = query,

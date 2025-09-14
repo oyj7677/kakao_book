@@ -14,7 +14,7 @@ import com.oyj.kakaobook.R
 private const val TAG = "SearchStatePagingView"
 
 @Composable
-fun SearchStatePagingView(
+fun SearchStateView(
     bookList: LazyPagingItems<Book>,
     bookmarkedIsbnSet: Set<String>,
     query: String,
@@ -50,7 +50,7 @@ fun SearchStatePagingView(
             }
 
             else -> {
-                SearchResultPagingView(
+                SearchResultView(
                     modifier = modifier,
                     bookList = bookList,
                     bookmarkedIsbnSet = bookmarkedIsbnSet,

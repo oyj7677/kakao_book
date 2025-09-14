@@ -1,6 +1,5 @@
 package com.oyj.kakaobook.ui.search
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,8 +20,8 @@ import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.kakaobook.ui.component.TitleTopBar
 import com.oyj.kakaobook.R
-import com.oyj.kakaobook.ui.component.SearchStatePagingView
-import com.oyj.kakaobook.ui.component.SortCriteriaSelectorPaging
+import com.oyj.kakaobook.ui.component.SearchStateView
+import com.oyj.kakaobook.ui.component.SortCriteriaSelector
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 
@@ -106,13 +105,13 @@ fun SearchScreen(
             )
 
             // 정렬 기준
-            SortCriteriaSelectorPaging(
+            SortCriteriaSelector(
                 selectedCriteria = searchSortCriteria,
                 sortCriteriaList = SearchSortCriteria.getSearchCriteria(),
                 onCriteriaSelected = onCriteriaSelected,
             )
 
-            SearchStatePagingView(
+            SearchStateView(
                 bookList = bookList,
                 bookmarkedIsbnSet = bookmarkedIsbnSet,
                 query = query,

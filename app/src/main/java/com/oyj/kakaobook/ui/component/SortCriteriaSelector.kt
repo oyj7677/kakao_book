@@ -9,12 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.kakaobook.ui.component.ComponentConstants.Padding
 
 @Composable
-fun SortCriteriaSelectorPaging(
+fun SortCriteriaSelector(
     selectedCriteria: SearchSortCriteria,
     sortCriteriaList: List<SearchSortCriteria>,
     onCriteriaSelected: (SearchSortCriteria) -> Unit,
@@ -39,7 +38,7 @@ fun SortCriteriaSelectorPaging(
 @Preview
 @Composable
 private fun SortCriteriaSelectorPreview() {
-    SortCriteriaSelectorPaging(
+    SortCriteriaSelector(
         selectedCriteria = SearchSortCriteria.Accuracy,
         sortCriteriaList = SearchSortCriteria.getSearchCriteria(),
         onCriteriaSelected = {}
