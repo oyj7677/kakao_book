@@ -7,12 +7,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
-import com.oyj.kakaobook.model.SearchSortCriteria
+import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.domain.usecase.DeleteBookmarkUseCase
 import com.oyj.domain.usecase.GetBookmarkPagingUseCase
 import com.oyj.domain.usecase.GetBookmarkedIsbnsUseCase
 import com.oyj.domain.usecase.InsertBookmarkUseCase
-import com.oyj.kakaobook.model.SortOrder
+import com.oyj.kakaobook.data.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

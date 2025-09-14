@@ -1,4 +1,4 @@
-package com.oyj.kakaobook.model
+package com.oyj.kakaobook.data
 
 sealed class SearchSortCriteria(val value: String, val displayName: String) {
     object Accuracy : SearchSortCriteria("accuracy", "정확도")

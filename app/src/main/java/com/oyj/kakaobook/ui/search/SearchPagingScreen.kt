@@ -16,15 +16,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.oyj.domain.entity.Book
-import com.oyj.kakaobook.model.SearchSortCriteria
+import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.kakaobook.ui.component.TitleTopBar
 import com.oyj.kakaobook.R
 import com.oyj.kakaobook.ui.component.SearchStatePagingView
 import com.oyj.kakaobook.ui.component.SortCriteriaSelectorPaging
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-
-private const val TAG = "SearchPagingScreen"
 
 @Composable
 fun SearchPagingScreen(
@@ -56,7 +54,6 @@ fun SearchPagingScreen(
             viewModel.updateBookmark(it)
         },
         onClickCard = {
-            Log.d(TAG, "SearchPagingScreen: onClickCard 11 : ${it.title}")
             navController.navigate(it)
         }
     )
@@ -118,10 +115,7 @@ fun SearchPagingScreen(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
                 onClickBookmark = onClickBookmark,
-                onClickCard = {
-                    Log.d(TAG, "SearchPagingScreen: onClickCard 22 : ${it.title}")
-                    onClickCard(it)
-                }
+                onClickCard = onClickCard
             )
         }
     }

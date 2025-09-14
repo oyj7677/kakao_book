@@ -9,7 +9,7 @@ import com.oyj.domain.usecase.CheckBookmarkUseCase
 import com.oyj.domain.usecase.DeleteBookmarkUseCase
 import com.oyj.domain.usecase.InsertBookmarkUseCase
 import com.oyj.kakaobook.mapper.PresenterMapper.toBookItemDetail
-import com.oyj.kakaobook.model.BookItemDetail
+import com.oyj.kakaobook.data.BookItemDetail
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -56,6 +56,7 @@ class BookDetailViewModel @Inject constructor(
                         val isBookmarked = result.data
                         _bookItemDetail.value = book.toBookItemDetail(isBookmarked)
                     }
+
                     is Result.Error -> TODO()
                 }
             }
@@ -77,19 +78,21 @@ class BookDetailViewModel @Inject constructor(
                     is Result.Success -> {
                         _bookItemDetail.value = book.toBookItemDetail(true)
                     }
+
                     is Result.Error -> TODO()
                 }
             }
         }
     }
+
     private fun deleteBookmark() {
         viewModelScope.launch {
-            deleteBookmarkUseCase(book.isbn).collect {
-                result ->
+            deleteBookmarkUseCase(book.isbn).collect { result ->
                 when (result) {
                     is Result.Success -> {
                         _bookItemDetail.value = book.toBookItemDetail(false)
                     }
+
                     is Result.Error -> TODO()
                 }
             }

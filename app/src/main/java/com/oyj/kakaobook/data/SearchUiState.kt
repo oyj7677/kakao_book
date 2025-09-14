@@ -1,4 +1,4 @@
-package com.oyj.kakaobook.model
+package com.oyj.kakaobook.data
 
 sealed class SearchUiState
 

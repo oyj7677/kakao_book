@@ -2,8 +2,8 @@ package com.oyj.kakaobook.mapper
 
 
 import com.oyj.domain.entity.Book
-import com.oyj.kakaobook.model.BookItem
-import com.oyj.kakaobook.model.BookItemDetail
+import com.oyj.kakaobook.data.BookItem
+import com.oyj.kakaobook.data.BookItemDetail
 import com.oyj.kakaobook.model.BookModel
 
 object PresenterMapper {
@@ -11,7 +11,7 @@ object PresenterMapper {
     fun Book.toBookItem(isBookmarked: Boolean = false): BookItem {
         return BookItem(
             isbn = isbn,
-            category = "도서", // Book 엔티티에 category가 없어 빈 값 설정
+            category = "도서",
             title = title,
             publisher = publisher,
             authors = author,
@@ -29,24 +29,7 @@ object PresenterMapper {
         )
     }
 
-    fun List<Book>.toBookModelList() : List<BookModel> {
-        return map { book ->
-            book.toBookModel()
-        }
-    }
-
-    /**
-     * 북마크 상태 맵과 함께 BookModel 리스트로 변환
-     * @param bookmarkStates ISBN을 키로 하고 북마크 상태를 값으로 하는 맵
-     */
-    fun List<Book>.toBookModelListWithBookmarks(bookmarkStates: Map<String, Boolean>): List<BookModel> {
-        return map { book ->
-            val isBookmarked = bookmarkStates[book.isbn] ?: false
-            book.toBookModel(isBookmarked)
-        }
-    }
-
-    fun Book.toBookItemDetail(isBookmarked: Boolean = false) : BookItemDetail {
+    fun Book.toBookItemDetail(isBookmarked: Boolean = false): BookItemDetail {
         return BookItemDetail(
             isbn = isbn,
             title = title,
@@ -60,16 +43,5 @@ object PresenterMapper {
             contents = contents,
             isBookmark = isBookmarked
         )
-    }
-
-    /**
-     * BookModel 리스트의 북마크 상태를 업데이트
-     * @param bookmarkStates ISBN을 키로 하고 북마크 상태를 값으로 하는 맵
-     */
-    fun List<BookModel>.updateBookmarkStates(bookmarkStates: Map<String, Boolean>): List<BookItem> {
-        return map { bookModel ->
-            val isBookmarked = bookmarkStates[bookModel.book.isbn] ?: bookModel.bookItem.isBookmark
-            bookModel.bookItem.copy(isBookmark = isBookmarked)
-        }
     }
 }

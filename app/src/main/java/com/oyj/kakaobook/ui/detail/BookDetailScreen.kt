@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.oyj.kakaobook.R
-import com.oyj.kakaobook.model.BookItemDetail
+import com.oyj.kakaobook.data.BookItemDetail
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -76,10 +76,11 @@ fun BookDetailScreen(
     onClickBack: () -> Unit,
     onClickBookmark: () -> Unit
 ) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White)
-        .padding(horizontal = 16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(horizontal = 16.dp)
     ) {
         // Top Bar
         Row(
@@ -131,12 +132,22 @@ fun BookDetailScreen(
             Column(
                 modifier = Modifier.align(Alignment.Top)
             ) {
-                Text("저자 : ${book.author.joinToString()}", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    "저자 : ${book.author.joinToString()}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 if (book.translator.isNotEmpty())
-                    Text("번역 : ${book.translator.joinToString()}", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        "번역 : ${book.translator.joinToString()}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 Text("출판사 : ${book.publisher}", style = MaterialTheme.typography.bodyMedium)
                 Text("출간일 : ${book.dateTime}", style = MaterialTheme.typography.bodyMedium)
-                Text("ISBN : ${book.isbn}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+                Text(
+                    "ISBN : ${book.isbn}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold
+                )
                 Text("정상가 : ${book.price}원", style = MaterialTheme.typography.bodyMedium)
                 Text("할인가 : ${book.salePrice}원", style = MaterialTheme.typography.bodyMedium)
             }

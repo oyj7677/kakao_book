@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.oyj.kakaobook.model.BookItem
+import com.oyj.kakaobook.data.BookItem
 
 @Composable
 fun SearchResultView(

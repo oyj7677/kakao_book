@@ -12,8 +12,6 @@ import androidx.paging.compose.LazyPagingItems
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.R
 
-private const val TAG = "SearchStatePagingView"
-
 @Composable
 fun SearchStatePagingView(
     bookList: LazyPagingItems<Book>,
@@ -31,7 +29,6 @@ fun SearchStatePagingView(
 
             loadState.refresh is LoadState.Error -> {
                 val e = bookList.loadState.refresh as LoadState.Error
-                Log.e(TAG, "LoadState.Error : ", e.error)
                 EmptyState(
                     icon = Icons.Default.Search,
                     message = stringResource(R.string.error_search)
@@ -56,11 +53,7 @@ fun SearchStatePagingView(
                     bookList = bookList,
                     bookmarkedIsbnSet = bookmarkedIsbnSet,
                     onClickBookmark = onClickBookmark,
-                    onClickCard = {
-                        Log.d(TAG, "SearchStatePagingView: onClickCard 33 : ${it.title}")
-
-                        onClickCard(it)
-                    }
+                    onClickCard = onClickCard
                 )
             }
         }

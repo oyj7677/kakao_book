@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
-import com.oyj.kakaobook.model.SearchSortCriteria
+import com.oyj.kakaobook.data.SearchSortCriteria
 import com.oyj.domain.usecase.DeleteBookmarkUseCase
 import com.oyj.domain.usecase.GetBookListPagingUseCase
 import com.oyj.domain.usecase.GetBookmarkedIsbnsUseCase

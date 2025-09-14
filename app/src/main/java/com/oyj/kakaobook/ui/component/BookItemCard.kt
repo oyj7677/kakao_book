@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.oyj.kakaobook.R
-import com.oyj.kakaobook.model.BookItem
+import com.oyj.kakaobook.data.BookItem
 
 @Composable
 fun BookItemCard(
