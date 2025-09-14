@@ -1,7 +1,6 @@
 package com.oyj.kakaobook.ui.component
 
 import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -11,6 +10,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.R
+
+private const val TAG = "SearchStatePagingView"
 
 @Composable
 fun SearchStatePagingView(
@@ -29,6 +30,7 @@ fun SearchStatePagingView(
 
             loadState.refresh is LoadState.Error -> {
                 val e = bookList.loadState.refresh as LoadState.Error
+                Log.e(TAG, "SearchStatePagingView: ${e.error.stackTrace}", )
                 EmptyState(
                     icon = Icons.Default.Search,
                     message = stringResource(R.string.error_search)
@@ -49,7 +51,7 @@ fun SearchStatePagingView(
 
             else -> {
                 SearchResultPagingView(
-                    modifier = modifier.fillMaxSize(),
+                    modifier = modifier,
                     bookList = bookList,
                     bookmarkedIsbnSet = bookmarkedIsbnSet,
                     onClickBookmark = onClickBookmark,

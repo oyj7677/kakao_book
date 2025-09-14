@@ -1,6 +1,8 @@
 package com.oyj.kakaobook.navitation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,10 +20,16 @@ fun NavigationGraph(navHostController: NavHostController) {
         startDestination = Screen.Search.route
     ) {
         composable(Screen.Search.route) {
-            SearchScreen(navController = navHostController)
+            SearchScreen(
+                modifier = Modifier.fillMaxSize(),
+                navController = navHostController
+            )
         }
         composable(Screen.Bookmark.route) {
-            BookmarkScreen(navController = navHostController)
+            BookmarkScreen(
+                modifier = Modifier.fillMaxSize(),
+                navController = navHostController
+            )
         }
 
         composable<Book> { backStackEntry ->

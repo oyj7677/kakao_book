@@ -5,10 +5,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.mapper.PresenterMapper.toBookItem
+import com.oyj.kakaobook.ui.component.ComponentConstants.LazyColumn.BOTTOM_PADDING
+import com.oyj.kakaobook.ui.component.ComponentConstants.LazyColumn.VERTICAL_SPACING
 
 @Composable
 fun SearchResultPagingView(
@@ -20,8 +21,8 @@ fun SearchResultPagingView(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        contentPadding = PaddingValues(bottom = BOTTOM_PADDING),
+        verticalArrangement = Arrangement.spacedBy(VERTICAL_SPACING)
     ) {
         items(
             count = bookList.itemCount,

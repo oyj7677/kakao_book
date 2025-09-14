@@ -1,5 +1,6 @@
 package com.oyj.kakaobook.ui.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -108,7 +109,7 @@ fun SearchScreen(
             SortCriteriaSelectorPaging(
                 selectedCriteria = searchSortCriteria,
                 sortCriteriaList = SearchSortCriteria.getSearchCriteria(),
-                onCriteriaSelected = onCriteriaSelected
+                onCriteriaSelected = onCriteriaSelected,
             )
 
             SearchStatePagingView(
@@ -117,7 +118,7 @@ fun SearchScreen(
                 query = query,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp),
+                    .weight(1f),
                 onClickBookmark = onClickBookmark,
                 onClickCard = onClickCard
             )

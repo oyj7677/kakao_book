@@ -23,6 +23,11 @@ object ComponentConstants {
         val CORNER_RADIUS_SMALL = 8.dp
     }
 
+    object LazyColumn {
+        val VERTICAL_SPACING = 12.dp
+        val BOTTOM_PADDING = 90.dp
+    }
+
     // Typography
     object Typography {
         val TITLE_LARGE_SIZE = 24.sp
@@ -44,7 +49,6 @@ object ComponentConstants {
     // Text Properties
     object Text {
         const val MAX_LINES_SINGLE = 1
-        const val MAX_LINES_DOUBLE = 2
     }
 
 }

@@ -34,11 +34,7 @@ class MainActivity : ComponentActivity() {
                         BottomNavigationBar(navHostController = navHostController)
                     }
                 ) { innerPadding ->
-                    Surface(
-                        modifier = Modifier.padding(innerPadding),
-                    ) {
-                        NavigationGraph(navHostController = navHostController)
-                    }
+                    NavigationGraph(navHostController = navHostController)
                 }
             }
         }
