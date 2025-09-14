@@ -1,5 +1,6 @@
 package com.oyj.kakaobook.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,10 +27,13 @@ import com.oyj.kakaobook.model.BookItem
 fun BookItemCard(
     book: BookItem,
     modifier: Modifier = Modifier,
-    onClickBookmark: (String) -> Unit = {}
+    onClickBookmark: (String) -> Unit = {},
+    onClickCard: (String) -> Unit = {}
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClickCard(book.isbn) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(12.dp)
     ) {

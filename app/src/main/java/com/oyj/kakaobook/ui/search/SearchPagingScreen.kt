@@ -1,17 +1,18 @@
 package com.oyj.kakaobook.ui.search
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.oyj.domain.entity.Book
@@ -20,16 +21,26 @@ import com.oyj.kakaobook.ui.component.TitleTopBar
 import com.oyj.kakaobook.R
 import com.oyj.kakaobook.ui.component.SearchStatePagingView
 import com.oyj.kakaobook.ui.component.SortCriteriaSelectorPaging
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavHostController
+
+private const val TAG = "SearchPagingScreen"
 
 @Composable
 fun SearchPagingScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchPagingViewModel = viewModel()
+    viewModel: SearchPagingViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val bookList = viewModel.bookList.collectAsLazyPagingItems()
     val sortCriteria by viewModel.searchSortCriteria.collectAsStateWithLifecycle()
     val bookmarkedIsbnSet by viewModel.bookmarkedIsbnSet.collectAsStateWithLifecycle()
+
+    LaunchedEffect(true) {
+        // 초기 즐겨찾기 데이터 로드
+        viewModel.updateBookmarkedIsbns()
+    }
 
     SearchPagingScreen(
         modifier = modifier,
@@ -43,6 +54,10 @@ fun SearchPagingScreen(
         },
         onClickBookmark = {
             viewModel.updateBookmark(it)
+        },
+        onClickCard = {
+            Log.d(TAG, "SearchPagingScreen: onClickCard 11 : ${it.title}")
+            navController.navigate(it)
         }
     )
 }
@@ -56,7 +71,8 @@ fun SearchPagingScreen(
     searchSortCriteria: SearchSortCriteria,
     onQueryChanged: (String) -> Unit = {},
     onCriteriaSelected: (SearchSortCriteria) -> Unit = {},
-    onClickBookmark: (Book) -> Unit = {}
+    onClickBookmark: (Book) -> Unit = {},
+    onClickCard: (Book) -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier,
@@ -101,7 +117,11 @@ fun SearchPagingScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
-                onClickBookmark = onClickBookmark
+                onClickBookmark = onClickBookmark,
+                onClickCard = {
+                    Log.d(TAG, "SearchPagingScreen: onClickCard 22 : ${it.title}")
+                    onClickCard(it)
+                }
             )
         }
     }

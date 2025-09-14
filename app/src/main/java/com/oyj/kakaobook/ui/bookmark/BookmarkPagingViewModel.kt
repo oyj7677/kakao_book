@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
 import com.oyj.kakaobook.model.SearchSortCriteria
@@ -56,7 +57,8 @@ class BookmarkPagingViewModel @Inject constructor(
             .flatMapLatest { (query, sortCriteria, sortOrder) ->
                 Log.d(TAG, "${sortCriteria.value}_${sortOrder.value}")
                 getBookmarkPagingUseCase(query, "${sortCriteria.value}_${sortOrder.value}")
-            }.stateIn(
+            }.cachedIn(viewModelScope)
+            .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = PagingData.empty(),
@@ -154,7 +156,7 @@ class BookmarkPagingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateBookmarkedIsbns() {
+    suspend fun updateBookmarkedIsbns() {
         getBookmarkedIsbnsUseCase.invoke().collect { result ->
             when (result) {
                 is Result.Success -> {

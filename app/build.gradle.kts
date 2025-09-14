@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -60,14 +61,16 @@ dependencies {
     implementation(libs.hilt.dagger.android)
     implementation(libs.hilt.core)
     implementation(libs.coil.compose)
+    implementation(libs.androidx.runtime)
     ksp(libs.hilt.dagger.compiler)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
-
+    implementation(libs.androidx.hilt.navigation.compose)
     testImplementation(libs.junit)
     testImplementation(libs.mockwebserver)
     testImplementation(libs.assertj.core)
     testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.serialization.json)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

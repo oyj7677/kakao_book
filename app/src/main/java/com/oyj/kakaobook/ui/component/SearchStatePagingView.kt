@@ -20,15 +20,16 @@ fun SearchStatePagingView(
     bookmarkedIsbnSet: Set<String>,
     query: String,
     modifier: Modifier = Modifier,
-    onClickBookmark: (Book) -> Unit = {}
+    onClickBookmark: (Book) -> Unit = {},
+    onClickCard: (Book) -> Unit = {}
 ) {
     bookList.apply {
         when {
-            loadState.refresh == LoadState.Loading-> {
+            loadState.refresh == LoadState.Loading -> {
                 LoadingView()
             }
 
-            loadState.refresh is LoadState.Error-> {
+            loadState.refresh is LoadState.Error -> {
                 val e = bookList.loadState.refresh as LoadState.Error
                 Log.e(TAG, "LoadState.Error : ", e.error)
                 EmptyState(
@@ -54,7 +55,12 @@ fun SearchStatePagingView(
                     modifier = modifier.fillMaxSize(),
                     bookList = bookList,
                     bookmarkedIsbnSet = bookmarkedIsbnSet,
-                    onClickBookmark = onClickBookmark
+                    onClickBookmark = onClickBookmark,
+                    onClickCard = {
+                        Log.d(TAG, "SearchStatePagingView: onClickCard 33 : ${it.title}")
+
+                        onClickCard(it)
+                    }
                 )
             }
         }

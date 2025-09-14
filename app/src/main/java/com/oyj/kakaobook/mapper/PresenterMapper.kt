@@ -3,6 +3,7 @@ package com.oyj.kakaobook.mapper
 
 import com.oyj.domain.entity.Book
 import com.oyj.kakaobook.model.BookItem
+import com.oyj.kakaobook.model.BookItemDetail
 import com.oyj.kakaobook.model.BookModel
 
 object PresenterMapper {
@@ -43,6 +44,22 @@ object PresenterMapper {
             val isBookmarked = bookmarkStates[book.isbn] ?: false
             book.toBookModel(isBookmarked)
         }
+    }
+
+    fun Book.toBookItemDetail(isBookmarked: Boolean = false) : BookItemDetail {
+        return BookItemDetail(
+            isbn = isbn,
+            title = title,
+            author = author,
+            translator = translator,
+            publisher = publisher,
+            price = price,
+            salePrice = salePrice,
+            dateTime = dateTime,
+            thumbnail = thumbnail,
+            contents = contents,
+            isBookmark = isBookmarked
+        )
     }
 
     /**

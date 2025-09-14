@@ -1,5 +1,8 @@
 package com.oyj.domain.entity
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Book(
     val isbn: String,
     val title: String,

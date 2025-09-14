@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.oyj.domain.entity.Book
 import com.oyj.domain.entity.Result
 import com.oyj.kakaobook.model.SearchSortCriteria
@@ -41,7 +42,8 @@ class SearchPagingViewModel @Inject constructor(
     private val _bookmarkedIsbnSet = MutableStateFlow<Set<String>>(emptySet())
     val bookmarkedIsbnSet: StateFlow<Set<String>> = _bookmarkedIsbnSet
 
-    private val _searchSortCriteria = MutableStateFlow<SearchSortCriteria>(SearchSortCriteria.Accuracy)
+    private val _searchSortCriteria =
+        MutableStateFlow<SearchSortCriteria>(SearchSortCriteria.Accuracy)
     val searchSortCriteria: StateFlow<SearchSortCriteria> = _searchSortCriteria
 
     @OptIn(FlowPreview::class)
@@ -58,7 +60,8 @@ class SearchPagingViewModel @Inject constructor(
                 } else {
                     getBookListPagingUseCase(query, sortCriteria.value)
                 }
-            }.stateIn(
+            }.cachedIn(viewModelScope)
+            .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = PagingData.empty(),
@@ -131,7 +134,7 @@ class SearchPagingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateBookmarkedIsbns() {
+    suspend fun updateBookmarkedIsbns() {
         getBookmarkedIsbnsUseCase.invoke().collect { result ->
             when (result) {
                 is Result.Success -> {
