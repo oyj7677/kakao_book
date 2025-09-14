@@ -51,7 +51,6 @@ class SearchViewModel @Inject constructor(
         combine(_query, _searchSortCriteria) { query, sortCriteria ->
             Pair(query, sortCriteria)
         }.debounce(500)
-            .filter { (query, _) -> query.isNotBlank() }
             .distinctUntilChanged()
             .flatMapLatest { (query, sortCriteria) ->
                 if (query.isBlank()) {
